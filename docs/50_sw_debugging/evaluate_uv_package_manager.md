@@ -14,30 +14,55 @@
 sudo apt update
 sudo apt dist-upgrade
 sudo apt install cmake build-essential
-
 ```
 
 ```Shell
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# curl -LsSf https://astral.sh/uv/install.sh | sudo sh
+# uv self update
+sudo pip install uv --upgrade --break-system-packages
 
-source $HOME/.cargo/env
+source $HOME/.local/bin/env
 
 uv python list
 # cpython-3.11.2-linux-armv7-gnu    /usr/bin/python3.11
-uv python install
-# installs cpython-3.13.0-linux-armv7-gnu
+uv python install 3.13 --reinstall
+# installs cpython-3.13.2-linux-armv7-gnu
 uv venv -p 3.13
 # creates a usable venv for py313
 uv pip install /opt/shepherd/software/python-package -p 3.13
 # fails with ram-explosion, several packages are build in parallel
-uv pip install numpy -p 3.13 # 242 min
-uv pip install zstandard -p 3.13  # 23 min
+uv pip install numpy -p 3.13 # v2.2.4, 110 min (previously 240min?)
+uv pip install zstandard -p 3.13  # v0.23, 21 min
 sudo apt install hdf5-tools libhdf5-dev # or libhdf5-103, the two installed did the trick
-uv pip install h5py -p 3.13  #
-uv pip install gevent -p 3.13  # 32 min
-uv pip install pyzmq -p 3.13  # 27 min
+uv pip install h5py -p 3.13  # v3.13, 54 min
+uv pip install gevent -p 3.13  # v2024.11.1, 35 min
+uv pip install pyzmq -p 3.13  # v26.4.0, 25 min
+uv pip install pydantic click -U -p 3.13  #
+uv pip install shepherd-core -U -p 3.13  # 1 min
+uv pip install psutil msgpack -p 3.13  # 2 min
 
 source /opt/shepherd/software/python-package/.venv/bin/activate
+```
+
+run in venv:
+
+```shell
+cd
+uv venv
+source /home/jane/.venv/bin/activate
+
+# in .bashrc
+. "$HOME/.local/bin/env"
+. "$HOME/.venv/bin/activate"
+```
+
+
+help with cleaning up uv [is here](https://docs.astral.sh/uv/getting-started/features/#utility) and also [removing it completely](https://docs.astral.sh/uv/getting-started/installation/#uninstallation)
+
+```Shell
+uv cache prune
+# or complete clean
+uv cache clean
 ```
 
 ~~Still an [open bug](https://github.com/astral-sh/uv/issues/6873) in uv (v0.4.15, 2024-09-23)~~
@@ -111,7 +136,11 @@ But it's slower than the bundled py-version:
 
 ```Shell
 sudo python3 -X importtime -c 'from shepherd_core.data_models.task import EmulationTask' 2> importtime.log
+# native
 # 11.7 s on v2024.8.2, pydantic 2.9.0, core 2.23.2
-# 18.7 s on v2024.9.1, pydantic 2.9.2, core 2.23.4 - python 3.13 via uv
+#  8.8 s on v2025.2.2, pydantic 2.11.2, core 2.33.1
+# with UV
+# 18.7 s on v2024.9.1, pydantic 2.9.2, core 2.23.4 - python 3.13.0 via uv 0.4.29
+# 13.1 s on v2025.2.2, pydantic 2.11.2, core 2.33.1 - python 3.13.2 via uv 0.6.12
 
 ```
