@@ -1116,12 +1116,12 @@
         },
         "schemdraw": {
             "hashes": [
-                "sha256:deaf028827cd1ab1a62c5d40cb70a0ed32ac1f4243ddd6ca86c616e4ac7a3672",
-                "sha256:ed750908232b25037759ff183e010f63c7b40b254da2f1e540ebae3fd1c0d995"
+                "sha256:6127b28d8fe0a8c78d37aa2dff93c1d39f18da84e59172f865b8fbd7664af386",
+                "sha256:b5bee2fa63e7a876dfd7478bcc7131325ead2bf7769056ee3e7873a57d799bd5"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.8'",
-            "version": "==0.20"
+            "markers": "python_version >= '3.9'",
+            "version": "==0.21"
         },
         "scipy": {
             "hashes": [
