@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pre-commit = "*"
+pre-commit-uv = "*"
 schemdraw = "*"
 sphinx = "*"
 sphinx-click = "*"

@@ -8,7 +8,6 @@ select = ["ALL"]
 ignore = [
     "N802", "N803", "N806", "N815", "N816", # naming (si-units should stay)
     "PLR2004", # magic values
-    "TID252", # relative imports from parent
     "PLR0904", "PLR0911", "PLR0912", "PLR0913", "PLR0915", # complexity
     "C901", # complexity
     "ANN401",  # Any as valid type
@@ -20,7 +19,9 @@ ignore = [
     "D404", "D405", "D406", "D407", "D408", "D409",  # conflicts with PEP257-convention (B)
     "D410", "D411", "D413", "D415", "D416", "D417",  # conflicts with PEP257-convention (C)
     "EM101", "TRY003", "TRY400",  # xpt & strings
-    "D100", "D102", "D103",  # docstring
+    "D100", "D102", "D103", "D104", # docstring
+    "T201", # Print
+    "ERA001", # commented-out code
 ]
 
 exclude= [
