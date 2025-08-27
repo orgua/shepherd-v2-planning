@@ -16,6 +16,8 @@ config: dict[str, int] = {
 
 
 class DataStructure:
+    """The data-array that is used in the shared memory."""
+
     def __init__(self, voltage: int = 0, current: int = 0) -> None:
         self.voltage = voltage
         self.current = current
@@ -23,11 +25,16 @@ class DataStructure:
     def __eq__(self, ds2: Self) -> bool:
         return (self.voltage == ds2.voltage) and (self.current == ds2.current)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"IV[{self.current}, {self.voltage}]"
+
+    def __hash__(self) -> int:  # indirectly needed for __eq__
+        return hash(str(self.voltage) + str(self.current))
 
 
 class SharedMem:
+    """SharedMemory-Implementation that mimics the beaglebone-setup."""
+
     def __init__(self, size: int) -> None:
         self.data: list[DataStructure] = [DataStructure()] * size
         self.size = size
@@ -37,6 +44,8 @@ class SharedMem:
 
 
 class SupervisorMem:
+    """Memory and logic of the supervisor-thread."""
+
     def __init__(self) -> None:
         self.data_a_in: list[DataStructure] = []
         self.data_a_out: list[DataStructure] = []
@@ -51,9 +60,8 @@ class SupervisorMem:
             data_a = self.data_a_out.pop(0)
             data_b = self.data_b_in.pop(0)
             if data_a != data_b:
-                raise ValueError(
-                    f"[supervisor] AB-Mismatch - {data_a} != {data_b} (AB)",
-                )
+                msg = f"[supervisor] AB-Mismatch - {data_a} != {data_b} (AB)"
+                raise ValueError(msg)
             self.counter_ab += 1
             return True
         return False
@@ -63,9 +71,8 @@ class SupervisorMem:
             data_a = self.data_a_in.pop(0)
             data_b = self.data_b_out.pop(0)
             if data_a != data_b:
-                raise ValueError(
-                    f"[supervisor] BA-Mismatch - {data_b} != {data_a} (AB)",
-                )
+                msg = f"[supervisor] BA-Mismatch - {data_b} != {data_a} (AB)"
+                raise ValueError(msg)
             self.counter_ab += 1
             return True
         return False
@@ -84,6 +91,8 @@ class SupervisorMem:
 
 
 class Supervisor(threading.Thread):
+    """Separate supervising thread that monitors the Buffer."""
+
     def __init__(self, buffer: SupervisorMem) -> None:
         threading.Thread.__init__(self)
         self.visor = buffer
@@ -105,17 +114,18 @@ class Supervisor(threading.Thread):
 
 
 class DeviceA(threading.Thread):
-    """TODO:
-         - implement reading back from dev_b
-         - "bug": dev_a writes more than configured
+    """shared-mem access stat.
 
-    shared-mem access stat:
         - start_b   -> written once
         - timestamp -> write once every bufferoverflow
         - data      -> write and read chunk-wise
         - idx_b     -> only read once every chunk of data written
 
         -> is this the optimal solution?
+
+    TODO:
+         - implement reading back from dev_b
+         - "bug": dev_a writes more than configured
     """
 
     def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem) -> None:
@@ -155,7 +165,8 @@ class DeviceA(threading.Thread):
 
 
 class DeviceB(threading.Thread):
-    """shared-mem access stat:
+    """shared-mem access stats.
+
     - start_b   -> read once after a reset
     - timestamp -> read once every bufferoverflow
     - data      -> read and write once every timestep
@@ -187,9 +198,11 @@ class DeviceB(threading.Thread):
                 if self.buffer.timestamp == self.timestamp_old + 1:
                     self.timestamp_old = self.buffer.timestamp
                 else:
-                    raise ValueError(
-                        f"[dev_b] timestamp unusual (expected {self.buffer.timestamp} == {self.timestamp_old} + 1)",
+                    msg = (
+                        f"[dev_b] timestamp unusual (expected "
+                        f"{self.buffer.timestamp} == {self.timestamp_old} + 1)"
                     )
+                    raise ValueError(msg)
 
             self.read_and_write()
             time.sleep(config["timestep_b"])

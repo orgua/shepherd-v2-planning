@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import click
 import h5py
 import numpy as np
@@ -5,7 +7,7 @@ import numpy as np
 
 @click.command()
 @click.argument("database", type=click.Path(exists=True, dir_okay=False))
-def cli(database):
+def cli(database: Path) -> None:
     with h5py.File(database, "r") as db:
         print(f"File got {len(db['gpio']['value'])} entries for GPIO")
         tt = db["gpio"]["value"][:] & ((2**9) + (2**10))  # BitPosition r30_09/out  TARGET_BAT_OK

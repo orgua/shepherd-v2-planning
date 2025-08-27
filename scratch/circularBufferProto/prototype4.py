@@ -25,7 +25,7 @@ IDX_OUT_OF_BOUND: int = 0xFFFFFFFF
 # Top-Level Package-logger
 log = logging.getLogger("Shp")
 log.setLevel(logging.DEBUG)
-log.propagate = 0
+log.propagate = False
 
 # handler for CLI
 console_handler = chromalog.ColorizingStreamHandler(sys.stdout)
@@ -34,6 +34,8 @@ log.addHandler(console_handler)
 
 
 class DataBuffer:
+    """Buffer-Implementation that can handle one reader & writer."""
+
     def __init__(self) -> None:
         self.idx_reader: int = IDX_OUT_OF_BOUND  # position of next (not yet read) value
         self.idx_writer: int = IDX_OUT_OF_BOUND  # position of next (not yet written) value
@@ -44,6 +46,8 @@ class DataBuffer:
 
 
 class DataCache:
+    """Cache-Implementation with block-wise updates."""
+
     def __init__(self) -> None:
         self.data = np.zeros(shape=config["cache_size"], dtype=np.uint32)
         self.flags = np.zeros(shape=config["buffer_size"] // config["block_size"])
@@ -51,6 +55,8 @@ class DataCache:
 
 
 class Cache(threading.Thread):
+    """Cache-Thread that mimics a separate device accessing the buffer."""
+
     def __init__(self, buffer: DataBuffer, cache: DataCache) -> None:
         threading.Thread.__init__(self)
         self._buffer = buffer
@@ -101,7 +107,7 @@ class Cache(threading.Thread):
             buffer_offset : buffer_offset + config["block_size"]
         ]
         self._cache.flags[block_idx] = 1
-        log.debug(f"[cache] cached block {block_idx}, fill = {self._block_fill + 1}")
+        log.debug("[cache] cached block %d, fill = %d", block_idx, self._block_fill + 1)
         return 1
 
     def _remove(self, block_idx: int) -> int:
@@ -111,11 +117,13 @@ class Cache(threading.Thread):
         cache_offset: int = (block_idx * config["block_size"]) % config["cache_size"]
         self._cache.data[cache_offset : cache_offset + config["block_size"]] = 0
         if self._block_fill < self._cache.BLOCKS:
-            log.debug(f"[cache] cleared block {block_idx}, fill = {self._block_fill + 1}")
+            log.debug("[cache] cleared block %d, fill = %d", block_idx, self._block_fill + 1)
         return 1
 
 
 class Writer(threading.Thread):
+    """Writer-Thread that takes data from DataBuffer."""
+
     def __init__(self, buffer: DataBuffer) -> None:
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer
@@ -154,11 +162,13 @@ class Writer(threading.Thread):
             self._buffer.data[self._buffer.idx_writer] = self._counter
             self._buffer.idx_writer = (self._buffer.idx_writer + 1) % config["buffer_size"]
             self._counter += 1
-        log.debug(f"[writer] filled block {block_idx}")
+        log.debug("[writer] filled block %d", block_idx)
         return True
 
 
 class Reader(threading.Thread):
+    """Reader-Thread that takes data from DataBuffer."""
+
     def __init__(self, buffer: DataBuffer, cache: DataCache) -> None:
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer

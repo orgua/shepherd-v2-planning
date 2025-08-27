@@ -1,13 +1,14 @@
 import random
+import sys
 import threading
 from typing import Any
 
 # writing and reading pointers
-writing_ts_py = 0
-reading_ts_pru = 0
+writing_ts_py: int = 0
+reading_ts_pru: int = 0
 
 # access to the buffer
-access = "PY_W"
+access: str = "PY_W"
 
 # list of data supervised by the supervisor thread
 data_written = []
@@ -16,7 +17,9 @@ data_read = []
 
 
 class RingBuffer:
-    def __init__(self, capacity) -> None:
+    """Ring-buffer that manages itself (hold data, indices, locks, )."""
+
+    def __init__(self, capacity: int) -> None:
         self.buffer: list[Any] = [None] * capacity
         self.capacity = capacity
         self.write_size = 0
@@ -35,7 +38,7 @@ class RingBuffer:
 
             self.condition.notify_all()
 
-    def get(self):
+    def get(self) -> Any:
         with self.lock:
             value = self.buffer[self.read_index]
             self.read_index = (self.read_index + 1) % self.capacity
@@ -59,14 +62,15 @@ class RingBuffer:
         return False
 
 
-class write_by_python(threading.Thread):
+class WriteByPython(threading.Thread):
+    """Writer-Implementation that mimics the python-side of the beaglebone."""
+
     def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
 
     def run(self) -> None:
         global access
-        global data_written
         global writing_ts_py
         while True:
             if access == "PY_W":
@@ -79,7 +83,9 @@ class write_by_python(threading.Thread):
                     access = "PRU_R"
 
 
-class read_by_pru(threading.Thread):
+class ReadByPru(threading.Thread):
+    """Reader-Implementation that mimics the PRU-side of the beaglebone."""
+
     def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
@@ -88,7 +94,6 @@ class read_by_pru(threading.Thread):
         while True:
             global access
             global reading_ts_pru
-            global data_processed
             if access == "PRU_R":
                 reading_ts_pru = self.buffer.read_index
                 values = self.buffer.get()
@@ -96,7 +101,11 @@ class read_by_pru(threading.Thread):
                 for tuple_i in values:
                     processed_result.append((tuple_i[0], tuple_i[1] ** 2))
 
-                    # print(f"[PRU]: read_index = \t {reading_ts_pru} and write_index = \t {self.buffer.write_index}")
+                    if False:
+                        print(
+                            f"[PRU]: read_index = \t {reading_ts_pru} and "
+                            f"write_index = \t {self.buffer.write_index}"
+                        )
 
                 self.buffer.append(processed_result)
                 data_processed.append(processed_result)
@@ -105,14 +114,15 @@ class read_by_pru(threading.Thread):
                     access = "PY_R"
 
 
-class read_by_python(threading.Thread):
+class ReadByPython(threading.Thread):
+    """Reader-Implementation that mimics the python-side of the beaglebone."""
+
     def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
 
     def run(self) -> None:
         global access
-        global data_read
         while True:
             if access == "PY_R":
                 values = self.buffer.get()
@@ -124,27 +134,29 @@ class read_by_python(threading.Thread):
 
 
 class SupervisorThread(threading.Thread):
+    """Separate supervising thread that monitors the Buffer."""
+
     def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
         self.every_data = []
 
     def run(self) -> None:
-        global data_written, data_processed, data_read
         while True:
-            global writing_ts_py, reading_ts_pru
             if writing_ts_py < reading_ts_pru:
                 print(
-                    f"SupervisorThread]Error: The reading pointer{reading_ts_pru} exceeded the writing pointer {writing_ts_py}",
+                    f"SupervisorThread] Error: "
+                    f"The reading pointer{reading_ts_pru} exceeded the "
+                    f"writing pointer {writing_ts_py}",
                 )
-                exit()
+                sys.exit()
 
-            if data_read != data_processed:
-                if len(data_read) == len(data_processed):
-                    print(
-                        "[SupervisorThread]Error: Mismatch in data processed by PRU and data read by Python\n",
-                    )
-                    exit()
+            if data_read != data_processed and len(data_read) == len(data_processed):
+                print(
+                    "[SupervisorThread] Error: "
+                    "Mismatch in data processed by PRU and data read by Python\n",
+                )
+                sys.exit()
 
 
 if __name__ == "__main__":
@@ -152,14 +164,14 @@ if __name__ == "__main__":
     buffer = RingBuffer(10)
 
     # Create the writer thread
-    python_write = write_by_python(buffer)
+    python_write = WriteByPython(buffer)
     python_write.start()
 
     # Create the reader thread
-    pru_read = read_by_pru(buffer)
+    pru_read = ReadByPru(buffer)
     pru_read.start()
 
-    python_read = read_by_python(buffer)
+    python_read = ReadByPython(buffer)
     python_read.start()
 
     # Create the supervisor thread
