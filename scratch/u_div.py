@@ -40,7 +40,9 @@ num_pairs = [
 for pair in num_pairs:
     product = pair[0] * pair[1]
     print(
-        f" got {pair[0]} * {pair[1]}, with {get_bit_space(pair[0])} bit * {get_bit_space(pair[1])} bit = {get_bit_space(product)} bit",
+        f" got {pair[0]} * {pair[1]}, "
+        f"with {get_bit_space(pair[0])} bit * {get_bit_space(pair[1])} bit "
+        f"= {get_bit_space(product)} bit",
     )
 
 print(udiv(24949300, 30310))

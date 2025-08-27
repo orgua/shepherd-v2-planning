@@ -1,5 +1,6 @@
 import random
 import threading
+from typing import Any
 
 # writing and reading pointers
 writing_ts_py = 0
@@ -15,8 +16,8 @@ data_read = []
 
 
 class RingBuffer:
-    def __init__(self, capacity):
-        self.buffer = [None] * capacity
+    def __init__(self, capacity) -> None:
+        self.buffer: list[Any] = [None] * capacity
         self.capacity = capacity
         self.write_size = 0
         self.read_size = 0
@@ -25,7 +26,7 @@ class RingBuffer:
         self.lock = threading.Lock()
         self.condition = threading.Condition(self.lock)
 
-    def append(self, value):
+    def append(self, value: Any) -> None:
         with self.lock:
             self.buffer[self.write_index] = value
             self.write_index = (self.write_index + 1) % self.capacity
@@ -45,13 +46,13 @@ class RingBuffer:
             self.condition.notify_all()
             return value
 
-    def isFull(self):
+    def isFull(self) -> bool:
         if self.write_size == self.capacity:
             self.write_size = 0
             return True
         return False
 
-    def isEmpty(self):
+    def isEmpty(self) -> bool:
         if self.read_size == self.capacity:
             self.read_size = 0
             return True
@@ -59,17 +60,17 @@ class RingBuffer:
 
 
 class write_by_python(threading.Thread):
-    def __init__(self, buffer):
+    def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
 
-    def run(self):
+    def run(self) -> None:
         global access
         global data_written
         global writing_ts_py
         while True:
             if access == "PY_W":
-                data = random.sample(range(1, 5), 2)
+                data: list[int] = random.sample(range(1, 5), 2)
                 writing_ts_py = self.buffer.write_index
                 result = [(writing_ts_py, x) for x in data]
                 self.buffer.append(result)
@@ -79,11 +80,11 @@ class write_by_python(threading.Thread):
 
 
 class read_by_pru(threading.Thread):
-    def __init__(self, buffer):
+    def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
 
-    def run(self):
+    def run(self) -> None:
         while True:
             global access
             global reading_ts_pru
@@ -92,8 +93,8 @@ class read_by_pru(threading.Thread):
                 reading_ts_pru = self.buffer.read_index
                 values = self.buffer.get()
                 processed_result = []
-                for tuple in values:
-                    processed_result.append((tuple[0], tuple[1] ** 2))
+                for tuple_i in values:
+                    processed_result.append((tuple_i[0], tuple_i[1] ** 2))
 
                     # print(f"[PRU]: read_index = \t {reading_ts_pru} and write_index = \t {self.buffer.write_index}")
 
@@ -105,11 +106,11 @@ class read_by_pru(threading.Thread):
 
 
 class read_by_python(threading.Thread):
-    def __init__(self, buffer):
+    def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
 
-    def run(self):
+    def run(self) -> None:
         global access
         global data_read
         while True:
@@ -123,12 +124,12 @@ class read_by_python(threading.Thread):
 
 
 class SupervisorThread(threading.Thread):
-    def __init__(self, buffer):
+    def __init__(self, buffer: RingBuffer) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer
         self.every_data = []
 
-    def run(self):
+    def run(self) -> None:
         global data_written, data_processed, data_read
         while True:
             global writing_ts_py, reading_ts_pru
@@ -146,26 +147,27 @@ class SupervisorThread(threading.Thread):
                     exit()
 
 
-# Create the shared buffers
-buffer = RingBuffer(10)
+if __name__ == "__main__":
+    # Create the shared buffers
+    buffer = RingBuffer(10)
 
-# Create the writer thread
-python_write = write_by_python(buffer)
-python_write.start()
+    # Create the writer thread
+    python_write = write_by_python(buffer)
+    python_write.start()
 
-# Create the reader thread
-pru_read = read_by_pru(buffer)
-pru_read.start()
+    # Create the reader thread
+    pru_read = read_by_pru(buffer)
+    pru_read.start()
 
-python_read = read_by_python(buffer)
-python_read.start()
+    python_read = read_by_python(buffer)
+    python_read.start()
 
-# Create the supervisor thread
-supervisor = SupervisorThread(buffer)
-supervisor.start()
+    # Create the supervisor thread
+    supervisor = SupervisorThread(buffer)
+    supervisor.start()
 
-# Wait for all threads to finish
-python_write.join()
-pru_read.join()
-python_read.join()
-supervisor.join()
+    # Wait for all threads to finish
+    python_write.join()
+    pru_read.join()
+    python_read.join()
+    supervisor.join()

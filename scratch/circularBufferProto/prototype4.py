@@ -34,7 +34,7 @@ log.addHandler(console_handler)
 
 
 class DataBuffer:
-    def __init__(self):
+    def __init__(self) -> None:
         self.idx_reader: int = IDX_OUT_OF_BOUND  # position of next (not yet read) value
         self.idx_writer: int = IDX_OUT_OF_BOUND  # position of next (not yet written) value
         self.data = np.zeros(shape=config["buffer_size"], dtype=np.uint32)
@@ -44,14 +44,14 @@ class DataBuffer:
 
 
 class DataCache:
-    def __init__(self):
+    def __init__(self) -> None:
         self.data = np.zeros(shape=config["cache_size"], dtype=np.uint32)
         self.flags = np.zeros(shape=config["buffer_size"] // config["block_size"])
         self.BLOCKS: int = config["cache_size"] // config["block_size"]
 
 
 class Cache(threading.Thread):
-    def __init__(self, buffer: DataBuffer, cache: DataCache):
+    def __init__(self, buffer: DataBuffer, cache: DataCache) -> None:
         threading.Thread.__init__(self)
         self._buffer = buffer
         self._cache = cache
@@ -59,7 +59,7 @@ class Cache(threading.Thread):
         self._block_idx_tail: int = IDX_OUT_OF_BOUND // config["block_size"]
         self._block_fill: int = 0
 
-    def run(self):
+    def run(self) -> None:
         log.debug("[cache] waiting to start")
         while not self._buffer.run_writer:
             time.sleep(config["timestep_cache"])
@@ -69,7 +69,7 @@ class Cache(threading.Thread):
             time.sleep(config["timestep_cache"])
         log.info("[cache] stopped")
 
-    def update(self):
+    def update(self) -> None:
         if self._buffer.idx_writer >= config["buffer_size"]:
             return
 
@@ -116,12 +116,12 @@ class Cache(threading.Thread):
 
 
 class Writer(threading.Thread):
-    def __init__(self, buffer: DataBuffer):
+    def __init__(self, buffer: DataBuffer) -> None:
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer
         self._counter: int = 0  # to end primary TX
 
-    def run(self):
+    def run(self) -> None:
         log.debug("[writer] waiting to start")
         while not self._buffer.run_writer:
             time.sleep(config["timestep_writer"])
@@ -159,13 +159,13 @@ class Writer(threading.Thread):
 
 
 class Reader(threading.Thread):
-    def __init__(self, buffer: DataBuffer, cache: DataCache):
+    def __init__(self, buffer: DataBuffer, cache: DataCache) -> None:
         threading.Thread.__init__(self)
         self._buffer: DataBuffer = buffer
         self._cache: DataCache = cache
         self._sample_last: int | None = None
 
-    def run(self):
+    def run(self) -> None:
         log.debug("[reader] waiting to start")
         while not self._buffer.run_reader:
             # wait for start
@@ -175,7 +175,7 @@ class Reader(threading.Thread):
             value = self.read_sample()
             if (self._sample_last is not None) and (value != self._sample_last + 1):
                 raise ValueError(
-                    f"[reader] value not as expected ({value} != {self._sample_last} + 1)",
+                    "[reader] value not as expected (%d != %d + 1)", value, self._sample_last
                 )
             self._sample_last = value
             if ((self._buffer.idx_reader) + 1 % config["buffer_size"]) == self._buffer.idx_writer:
@@ -194,7 +194,7 @@ class Reader(threading.Thread):
             value = self._cache.data[idx_cache]
         else:
             value = self._buffer.data[self._buffer.idx_reader]
-            log.warning(f"[reader] idx {self._buffer.idx_reader} was not cached")
+            log.warning("[reader] idx %d was not cached", self._buffer.idx_reader)
 
         self._buffer.idx_reader = (self._buffer.idx_reader + 1) % config["buffer_size"]
         return value

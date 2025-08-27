@@ -15,7 +15,7 @@ eta_out = 0.9  # LUT-parameter, f(V_out,I_out)
 V_out = 2.3  # parameter
 I_out = 0e-3  # ADC-measurement
 
-for i in range(20):
+for _ in range(20):
     P_in = V_in * I_in
     I_cIn = eta_in * P_in / V_cap
     P_out = V_out * I_out

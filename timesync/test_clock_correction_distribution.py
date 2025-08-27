@@ -10,7 +10,7 @@ compensation_distance = 7
 analog_sample_index = 0
 compensation_dist_count = 0
 
-for index in range(analog_sample_steps):
+for _ in range(analog_sample_steps):
     value = copy.deepcopy(analog_sample_index)
     value = value + analog_sample_period
     compensation_dist_count += 1
@@ -37,7 +37,7 @@ compensation_increment = 1333
 analog_sample_index = 0
 compensation_counter = 0
 
-for index in range(analog_sample_steps):
+for _ in range(analog_sample_steps):
     value = copy.deepcopy(analog_sample_index)
     value = value + analog_sample_period
     compensation_counter += compensation_increment

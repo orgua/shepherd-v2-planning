@@ -1,11 +1,13 @@
 import sys
 import time
+from collections.abc import Sequence
 from pathlib import Path
 
 import click
 import zerorpc
 from fabric import Connection
 from keithley2600 import Keithley2600
+from keithley2600.keithley_driver import KeithleyClass
 
 script_path = Path(__file__).parent.parent.parent
 shepherd_path = script_path.parent.joinpath(
@@ -18,8 +20,8 @@ sys.path.append(str(shepherd_path))
 
 
 # SMU Config-Parameters
-mode_4wire = True
-pwrline_cycles = 16  # .001 to 25 allowed, >= 20 SMU throws sporadic errors (timeouts)
+mode_4wire: bool = True
+pwrline_cycles: float = 16  # .001 to 25 allowed, >= 20 SMU throws sporadic errors (timeouts)
 
 adict = {
     "voltage_shp_V": 0,
@@ -45,7 +47,9 @@ INSTR_EMU = """
 """
 
 
-def emulator_dyn_load(rpc_client, smu, voltage_V, currents_A):
+def emulator_dyn_load(
+    rpc_client: zerorpc.Client, smu: KeithleyClass, voltage_V: float, currents_A: Sequence
+) -> None:
     voltage_V = min(max(voltage_V, 0.0), 5.0)
 
     if smu is not None:
@@ -76,8 +80,8 @@ def emulator_dyn_load(rpc_client, smu, voltage_V, currents_A):
     click.confirm("Ending Series", default=True)
 
 
-@click.group(context_settings=dict(help_option_names=["-h", "--help"], obj={}))
-def cli():
+@click.group(context_settings={"help_option_names": ["-h", "--help"], "obj": {}})
+def cli() -> None:
     pass
 
 
@@ -94,11 +98,16 @@ def cli():
 @click.option("--smu-ip", type=str, default="192.168.1.108")
 @click.option("--harvester", "-h", is_flag=True, help="handle harvester")
 @click.option("--emulator", "-e", is_flag=True, help="handle emulator")
-def measure(host, user, password, smu_ip, harvester, emulator):
-    if password is not None:
-        fabric_args = {"password": password}
-    else:
-        fabric_args = {}
+def measure(
+    host: str,
+    user: str,
+    password: str,
+    smu_ip: str,
+    *,
+    harvester: bool = False,
+    emulator: bool = False,
+) -> None:
+    fabric_args = {} if password is None else {"password": password}
 
     rpc_client = zerorpc.Client(timeout=60, heartbeat=20)
 

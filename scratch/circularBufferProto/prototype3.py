@@ -2,6 +2,7 @@ import random
 import threading
 import time
 from copy import copy
+from typing import Self
 
 config: dict[str, int] = {
     "timestep_a": 0.100,  # seconds
@@ -15,11 +16,11 @@ config: dict[str, int] = {
 
 
 class DataStructure:
-    def __init__(self, voltage: int = 0, current: int = 0):
+    def __init__(self, voltage: int = 0, current: int = 0) -> None:
         self.voltage = voltage
         self.current = current
 
-    def __eq__(self, ds2) -> bool:
+    def __eq__(self, ds2: Self) -> bool:
         return (self.voltage == ds2.voltage) and (self.current == ds2.current)
 
     def __str__(self):
@@ -27,7 +28,7 @@ class DataStructure:
 
 
 class SharedMem:
-    def __init__(self, size: int):
+    def __init__(self, size: int) -> None:
         self.data: list[DataStructure] = [DataStructure()] * size
         self.size = size
         self.timestamp: int = 0
@@ -36,7 +37,7 @@ class SharedMem:
 
 
 class SupervisorMem:
-    def __init__(self):
+    def __init__(self) -> None:
         self.data_a_in: list[DataStructure] = []
         self.data_a_out: list[DataStructure] = []
         self.data_b_in: list[DataStructure] = []
@@ -69,7 +70,7 @@ class SupervisorMem:
             return True
         return False
 
-    def report(self):
+    def report(self) -> None:
         queue = [
             len(self.data_a_out),
             len(self.data_b_in),
@@ -83,18 +84,18 @@ class SupervisorMem:
 
 
 class Supervisor(threading.Thread):
-    def __init__(self, buffer: SupervisorMem):
+    def __init__(self, buffer: SupervisorMem) -> None:
         threading.Thread.__init__(self)
         self.visor = buffer
 
-    def run(self):
+    def run(self) -> None:
         print("[visor] started")
         while self.visor.run:
             self.check()
         self.check()  # final QA
         print("[visor] stopped")
 
-    def check(self):
+    def check(self) -> None:
         time.sleep(config["timestep_s"])
         while self.visor.compare_a():
             continue
@@ -117,7 +118,7 @@ class DeviceA(threading.Thread):
         -> is this the optimal solution?
     """
 
-    def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem):
+    def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer_data
         self.visor = buffer_s
@@ -125,7 +126,7 @@ class DeviceA(threading.Thread):
         self.buffer_size = buffer_data.size  # read once
         self.counter: int = 0  # to end primary TX
 
-    def run(self):
+    def run(self) -> None:
         print("[dev_a] started")
         self.read_and_write()
         print("[dev_a] filled buffer -> will start dev_b now!")
@@ -137,7 +138,7 @@ class DeviceA(threading.Thread):
         self.visor.run = False
         print("[dev_a] stopped")
 
-    def read_and_write(self):
+    def read_and_write(self) -> None:
         to_write = (self.buffer_size + self.buffer.idx_b - self.idx_write) % self.buffer_size
         for _ in range(to_write):
             if self.idx_write == 0:
@@ -163,7 +164,7 @@ class DeviceB(threading.Thread):
     -> is this the optimal solution?
     """
 
-    def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem):
+    def __init__(self, buffer_data: SharedMem, buffer_s: SupervisorMem) -> None:
         threading.Thread.__init__(self)
         self.buffer = buffer_data
         self.visor = buffer_s
@@ -172,7 +173,7 @@ class DeviceB(threading.Thread):
         self.counter: int = 0  # just for verifying functionality
         self.timestamp_old: int = 0
 
-    def run(self):
+    def run(self) -> None:
         print("[dev_b] waiting to start")
         while not self.buffer.start_b:
             # wait for start
@@ -194,7 +195,7 @@ class DeviceB(threading.Thread):
             time.sleep(config["timestep_b"])
         print("[dev_b] stopped")
 
-    def read_and_write(self):
+    def read_and_write(self) -> None:
         dsi = self.buffer.data[self.idx_read]
         self.visor.data_b_in.append(copy(dsi))
         # produce fake data

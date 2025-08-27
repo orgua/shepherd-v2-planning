@@ -3,46 +3,48 @@ import h5py
 import numpy as np
 
 
-def assemble_window(dataseries):
-    with dpg.window(
-        tag="main",
-        label="Shepherd Testing and Debug Tool",
-        width=-1,
-        height=-1,
+def assemble_window(dataseries: dict) -> None:
+    with (
+        dpg.window(
+            tag="main",
+            label="Shepherd Testing and Debug Tool",
+            width=-1,
+            height=-1,
+        ),
+        dpg.plot(label="Line Series", height=-1, width=-1),
     ):
-        with dpg.plot(label="Line Series", height=-1, width=-1):
-            dpg.add_plot_legend()
-            dpg.add_plot_axis(dpg.mvXAxis, label="Time [s]")
-            dpg.add_plot_axis(dpg.mvYAxis, label="Voltage [V]", tag="y_voltage")
-            dpg.add_plot_axis(dpg.mvYAxis, label="Currant [mA]", tag="y_current")
-            dpg.add_plot_axis(dpg.mvYAxis, label="Power [mW]", tag="y_power")
-            dpg.add_line_series(
-                dataseries["time"].tolist(),
-                dataseries["voltage"].tolist(),
-                label="Voltage [V]",
-                parent="y_voltage",
-                tag="voltage_tag",
-            )
-            dpg.add_line_series(
-                dataseries["time"].tolist(),
-                (dataseries["current"] * 1e3).tolist(),
-                label="Current [mA]",
-                parent="y_current",
-                tag="current_tag",
-            )
-            dpg.add_line_series(
-                dataseries["time"].tolist(),
-                (dataseries["power"] * 1e3).tolist(),
-                label="Power [mW]",
-                parent="y_power",
-                tag="power_tag",
-            )
-            dpg.set_axis_limits_auto("y_voltage")
-            dpg.set_axis_limits_auto("y_current")
-            dpg.set_axis_limits_auto("y_power")
+        dpg.add_plot_legend()
+        dpg.add_plot_axis(dpg.mvXAxis, label="Time [s]")
+        dpg.add_plot_axis(dpg.mvYAxis, label="Voltage [V]", tag="y_voltage")
+        dpg.add_plot_axis(dpg.mvYAxis, label="Currant [mA]", tag="y_current")
+        dpg.add_plot_axis(dpg.mvYAxis, label="Power [mW]", tag="y_power")
+        dpg.add_line_series(
+            dataseries["time"].tolist(),
+            dataseries["voltage"].tolist(),
+            label="Voltage [V]",
+            parent="y_voltage",
+            tag="voltage_tag",
+        )
+        dpg.add_line_series(
+            dataseries["time"].tolist(),
+            (dataseries["current"] * 1e3).tolist(),
+            label="Current [mA]",
+            parent="y_current",
+            tag="current_tag",
+        )
+        dpg.add_line_series(
+            dataseries["time"].tolist(),
+            (dataseries["power"] * 1e3).tolist(),
+            label="Power [mW]",
+            parent="y_power",
+            tag="power_tag",
+        )
+        dpg.set_axis_limits_auto("y_voltage")
+        dpg.set_axis_limits_auto("y_current")
+        dpg.set_axis_limits_auto("y_power")
 
 
-def stat(dataset, name):
+def stat(dataset: np.ndarray, name: str) -> None:
     print(
         f"-> {name} min={np.min(dataset)}, max={np.max(dataset)}, mean={np.mean(dataset)}",
     )
@@ -71,7 +73,8 @@ if __name__ == "__main__":
 
     dpg.create_context()
     dpg.create_viewport(
-        title="Shepherd Testing and Debug Tool (VP) -> TIP: scroll while hovering on the desired axis",
+        title="Shepherd Testing and Debug Tool (VP) -> "
+        "TIP: scroll while hovering on the desired axis",
         width=1800,
         height=800,
     )

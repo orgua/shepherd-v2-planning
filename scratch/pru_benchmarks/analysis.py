@@ -38,11 +38,14 @@ def get_files(
 
 
 class LogicAnalyze:
+    """Analyzer for Saleae Logic CSV files."""
+
     def __init__(
         self,
         content: Path | np.ndarray,
-    ):
-        """Provide a file with two columns:
+    ) -> None:
+        """Provide a file with two columns.
+
         - timestamp (seconds with fraction) and signal (can be analog).
         - class-parameters that are None (above) get auto-detected
           (some detectors still missing)
@@ -75,8 +78,8 @@ class LogicAnalyze:
         self._filter_redundant_states()
         self._add_duration()
 
-    def _convert_analog2digital(self, invert: bool = False) -> None:
-        """Divide dimension in two, divided by mean-value"""
+    def _convert_analog2digital(self, *, invert: bool = False) -> None:
+        """Divide dimension in two, divided by mean-value."""
         data = self.events_sig[:, 1]
         mean = np.mean(data)
         if invert:
@@ -85,7 +88,7 @@ class LogicAnalyze:
             self.events_sig[:, 1] = data >= mean
 
     def _filter_redundant_states(self) -> None:
-        """Sum of two sequential states is always 1 (True + False) if alternating"""
+        """Sum of two sequential states is always 1 (True + False) if alternating."""
         data_0 = self.events_sig[:, 1]
         data_1 = np.concatenate([[not data_0[0]], data_0[:-1]])
         data_f = data_0 + data_1
@@ -99,7 +102,7 @@ class LogicAnalyze:
             )
 
     def _add_duration(self) -> None:
-        """Calculate third column -> duration of state in [baud-ticks]"""
+        """Calculate third column, duration of state in [baud-ticks]."""
         if self.events_sig.shape[1] > 2:
             logger.warning("Tried to add state-duration, but it seems already present")
             return
@@ -108,11 +111,8 @@ class LogicAnalyze:
         dur_steps = np.reshape(dur_steps, (dur_steps.size, 1))
         self.events_sig = np.append(self.events_sig[:-1, :], dur_steps, axis=1)
 
-    def get_state_stats(self, state: bool):
-        if state:
-            states = self.events_sig[:, 1] > 0.5
-        else:
-            states = self.events_sig[:, 1] <= 0.5
+    def get_state_stats(self, *, state: bool) -> None:
+        states = (self.events_sig[:, 1] > 0.5) if state else (self.events_sig[:, 1] <= 0.5)
 
         durations = self.events_sig[states, 2]
         smin = round(durations.min() * 1e9)
@@ -127,7 +127,7 @@ class LogicAnalyze:
         )
         # TODO: allow grouping by duration
 
-    def histogram(self):
+    def histogram(self) -> None:
         pass
         # https://numpy.org/doc/stable/reference/generated/numpy.histogram.html
 
@@ -138,7 +138,7 @@ if __name__ == "__main__":
     for file in files_csv:
         logger.info("#### Processing %s", file.name)
         log = LogicAnalyze(file)
-        log.get_state_stats(True)
-        log.get_state_stats(False)
+        log.get_state_stats(state=True)
+        log.get_state_stats(state=False)
 
     logger.info("finito")

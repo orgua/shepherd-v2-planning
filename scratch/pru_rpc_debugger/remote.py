@@ -1,7 +1,7 @@
 import zerorpc
 
 
-def connect_to_node(host: str):
+def connect_to_node(host: str) -> zerorpc.Client | None:
     # TODO: could also use fabric/connection to start rpc server on node
     rpc_client = zerorpc.Client(timeout=60, heartbeat=20)
     rpc_client.connect(f"tcp://{host}:4242")
@@ -14,10 +14,7 @@ def connect_to_node(host: str):
     return None
 
 
-def check_connection(rpc_client=None) -> bool:
-    if rpc_client is None:
-        global shepherd_io
-        rpc_client = shepherd_io
+def check_connection(rpc_client: zerorpc.Client | None = None) -> bool:
     if rpc_client is None:
         return False
     try:
