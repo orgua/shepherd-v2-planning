@@ -13,7 +13,7 @@ Status 2024-02: still not produced - maybe skipped for switching platform
 - stabilize 10 mV ⇾ 1uF increase to 2x 10uF, 2R increase to 10R
 - replace electrolytic Caps by MLCC (Optionals on Backside)
 
-⇾ implemented in V2.5a - https://github.com/orgua/shepherd_v2_planning/tree/main/PCBs/shepherd_cape_v2.5a
+⇾ implemented in V2.5a - https://github.com/orgua/shepherd-v2-planning/tree/main/PCBs/shepherd_cape_v2.5a
 
 ## Implemented Changes v2.5b/c
 

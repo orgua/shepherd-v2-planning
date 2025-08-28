@@ -9,7 +9,7 @@ Setup
 
 - two beaglebones are connected via ethernet to same switch
     - one beaglebone is default dev-environment, the other is freshly installed
-    - both have shepherd-code from https://github.com/orgua/shepherd installed
+    - both have shepherd-code from https://github.com/nes-lab/shepherd installed
     - both beaglebones were restarted more than once and had plenty of time to sync
 - switch
     - fritzbox, up to date and even restarted

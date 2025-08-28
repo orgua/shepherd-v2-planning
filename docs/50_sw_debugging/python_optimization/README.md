@@ -38,7 +38,7 @@ sudo python3 -m timeit -n 1 -r 1 "import shepherd_core"
 # 12.1 s on sheep, pydantic 2.5.2
 # 12.1 s on sheep, pydantic 2.6.1
 # 12.8 s on sheep, pydantic 2.7.0 / 2.18.1 - with lib 24.4.2 (16.6s without cache, 17.7/13.8 deferred)
-#  sudo rm /root/.cache/shepherd_datalib/fixtures.pickle
+#  sudo rm /root/.cache/shepherd/fixtures.pickle
 #
 sudo python3 -X importtime -c "import shepherd_core"
 # to shell
@@ -46,7 +46,7 @@ sudo python3 -X importtime -c 'from shepherd_core.data_models.task import Emulat
 # to file, now only replace some symbols by ";" and open with excel to sort
 ```
 
-In addition, there are benchmarks in the main-repo: https://github.com/orgua/shepherd/tree/main/software/python-package/tests_manual
+In addition, there are benchmarks in the main-repo: https://github.com/nes-lab/shepherd/tree/main/software/python-package/tests_manual
 
 ## Optimization - Low-hanging Fruits
 

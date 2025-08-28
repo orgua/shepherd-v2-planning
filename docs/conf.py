@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "Shepherd DevLog"
-copyright = "2024, Networked Embedded Systems Lab, TU Dresden / TU Darmstadt"
+copyright = "2021-2025, Networked Embedded Systems Lab, TU Dresden / TU Darmstadt"
 author = "Ingmar Splitt"
-release = "2024"
+release = "2025"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -42,9 +42,9 @@ html_permalinks_icon = "<span>#</span>"
 
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {}
-github_url = "https://github.com/orgua/shepherd_v2_planning"
+github_url = "https://github.com/orgua/shepherd-v2-planning"
 
-html_baseurl = "https://orgua.github.io/shepherd_v2_planning/"
+html_baseurl = "https://orgua.github.io/shepherd-v2-planning/"
 html_extra_path = ["robots.txt"]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

@@ -1,6 +1,6 @@
 # Hardware Casing for Nodes (2020)
 
-**Deprecated / shelved!** Current lasercut case is in [main repo](https://github.com/orgua/shepherd/tree/dev/hardware/case_lasercut)
+**Deprecated / shelved!** Current lasercut case is in [main repo](https://github.com/nes-lab/shepherd/tree/dev/hardware/case_lasercut)
 
 ## Constraints
 

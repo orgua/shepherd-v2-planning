@@ -8,7 +8,7 @@ System crashes while unloading the module - currently more often than before.
 
 What changed?
 
-https://github.com/orgua/shepherd/compare/orgua:shepherd:main...orgua:shepherd:dev?diff=unified
+https://github.com/nes-lab/shepherd/compare/orgua:shepherd:main...orgua:shepherd:dev?diff=unified
 
 ## Listen to kernel errors
 

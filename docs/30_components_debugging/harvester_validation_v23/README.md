@@ -4,7 +4,7 @@ Test of various harvesting algorithms with a solar cell
 
 - solar cell: IXYS SM101K09L
 - lighting by philips LED 9W 806 lm, 50 Hz
-- [harvesting Profiles in detail](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
+- [harvesting Profiles in detail](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 - Plots show
     - a general overview while the lighting was moved
     - an area with low light

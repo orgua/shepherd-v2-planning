@@ -161,7 +161,7 @@ GPLEV0[21]       # read value
 
 ```shell
 sudo apt install git
-git clone https://github.com/orgua/shepherd
+git clone https://github.com/nes-lab/shepherd
 cd shepherd/software/kernel-module/src/
 git checkout Kernel61RPi
 

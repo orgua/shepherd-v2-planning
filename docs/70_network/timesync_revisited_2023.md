@@ -13,7 +13,7 @@ Context:
 
 ## How to analyze
 
-A logic analyzer that observes the gpio-output plus a some [python code](https://github.com/orgua/shepherd/tree/dev/software/test_timesync) allow to analyze performance.
+A logic analyzer that observes the gpio-output plus a some [python code](https://github.com/nes-lab/shepherd/tree/dev/software/test_timesync) allow to analyze performance.
 
 ## Fixes for Problem 1 - PTP under load
 
@@ -175,12 +175,12 @@ Solution: write directly to registers
 
 This produced 2 two branches
 
-- [Kernel510](https://github.com/orgua/shepherd/tree/Kernel510/software/kernel-module/src): allows direct gpio-access for BBone Black & AI64
-- [Kernel61RPi](https://github.com/orgua/shepherd/tree/Kernel61RPi/software/kernel-module/src): same for Raspberry PI CM4
+- [Kernel510](https://github.com/nes-lab/shepherd/tree/Kernel510/software/kernel-module/src): allows direct gpio-access for BBone Black & AI64
+- [Kernel61RPi](https://github.com/nes-lab/shepherd/tree/Kernel61RPi/software/kernel-module/src): same for Raspberry PI CM4
 
 ## Eval for new platforms
 
-TLDR: A dedicated Software-Analysis and Tutorial is located here: https://github.com/orgua/shepherd/tree/dev/software/test_timesync
+TLDR: A dedicated Software-Analysis and Tutorial is located here: https://github.com/nes-lab/shepherd/tree/dev/software/test_timesync
 
 - there is a [ptp-hat for raspberry](https://hackaday.com/2021/08/16/new-part-day-raspberry-pi-hat-for-ieee1588-precision-time-protocol/) now
 - `ethtool -T eth0` shows BB AI 64 is already capable (per software)

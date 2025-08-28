@@ -87,11 +87,11 @@ Timings for reference (emulation, data from mid 2021):
 
 ## Links to Code-References
 
-- [mem-interface struct in c](https://github.com/orgua/shepherd/blob/main/software/firmware/include/commons.h#L127)
-- [buffer-swap in c](https://github.com/orgua/shepherd/blob/main/software/firmware/pru0-shepherd-fw/main.c#L91)
-- [buffer reception in python](https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L134)
-- [buffer swap routines (return_buffer() & get_buffer()) in python](https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L715)
-- [kernel module](https://github.com/orgua/shepherd/tree/main/software/kernel-module/src)
+- [mem-interface struct in c](https://github.com/nes-lab/shepherd/blob/main/software/firmware/include/commons.h#L127)
+- [buffer-swap in c](https://github.com/nes-lab/shepherd/blob/main/software/firmware/pru0-shepherd-fw/main.c#L91)
+- [buffer reception in python](https://github.com/nes-lab/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L134)
+- [buffer swap routines (return_buffer() & get_buffer()) in python](https://github.com/nes-lab/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L715)
+- [kernel module](https://github.com/nes-lab/shepherd/tree/main/software/kernel-module/src)
 
 
 External BBone-Projects that may help:

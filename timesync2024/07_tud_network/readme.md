@@ -15,9 +15,9 @@ TODO:
 - rpi5 or rpi4 as server (RPi5 shows very high path delays)
 - replace ringbuffer and fix misfire (double CS-Pulse)
 
-See [Step-By-Step-Guide](https://orgua.github.io/shepherd/dev/time_sync_measurement/readme.html) for hw-setup, measurement and data-preparation.
+See [Step-By-Step-Guide](https://nes-lab.github.io/shepherd/dev/time_sync_measurement/readme.html) for hw-setup, measurement and data-preparation.
 
-See [Example Analysis](https://orgua.github.io/shepherd/dev/time_sync_analysis/readme.html#) for more context regarding plots and raw-data.
+See [Example Analysis](https://nes-lab.github.io/shepherd/dev/time_sync_analysis/readme.html#) for more context regarding plots and raw-data.
 
 
 ## Results

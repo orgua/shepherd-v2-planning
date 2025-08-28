@@ -61,7 +61,7 @@ Design is based on Squeeze
  + spannungsbegreuntzung diode checken
  + PWR-LED mit Mosfet + only 220 R ? as much current as possible
 
-⇾ implemented for v1.0, https://github.com/orgua/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.0
+⇾ implemented for v1.0, https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.0
 
 ## Changes after v1.0 / Bugfixes
 
@@ -70,9 +70,9 @@ Design is based on Squeeze
 - C7 is 0604? use same as C2
 - make longer and all parts on one side? ⇾ NO
 
-⇾ implemented for v1.1, https://github.com/orgua/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.1
+⇾ implemented for v1.1, https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.1
 
 ## Hardware-Tests
 
 see readme.md in targets/hardware-folder
-https://github.com/orgua/shepherd-targets/tree/main/hardware
+https://github.com/nes-lab/shepherd-targets/tree/main/hardware

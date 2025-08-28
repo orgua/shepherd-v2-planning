@@ -4,7 +4,7 @@ Classification: irrelevant, mostly dev-dump
 
 ## Getting started - handling PRUs
 
-Was made more accessible by [ansible-playbook](https://github.com/orgua/shepherd/blob/main/deploy/dev_rebuild_sw.yml)
+Was made more accessible by [ansible-playbook](https://github.com/nes-lab/shepherd/blob/main/deploy/dev_rebuild_sw.yml)
 
 ```Shell
 ansible-playbook deploy/dev-rebuild_sw.yml

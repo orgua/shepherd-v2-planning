@@ -2,7 +2,7 @@
 
 ## Implementation of a Dataviewer for Shepherd-Recordings
 
-The Shepherd-Testbed produces voltage-, current and gpio-traces that can be post-processed by a [datalib](https://github.com/orgua/shepherd-datalib). The datalib serves as a documentation for the internal h5-structure for shepherd as well as a tool for creating, reading and modifying the recordings. There is also some basic plotting implemented based on matplotlib, but a fast and responsive data-viewer would be extremely helpful as recordings can span over several days and may include up to 30 - 100 shepherd-nodes.
+The Shepherd-Testbed produces voltage-, current and gpio-traces that can be post-processed by the [shepherd-tools](https://github.com/nes-lab/shepherd-tools). The tools serve as a documentation for the internal h5-structure for shepherd as well as a tool for creating, reading and modifying the recordings. There is also some basic plotting implemented based on matplotlib, but a fast and responsive data-viewer would be extremely helpful as recordings can span over several days and may include up to 30 - 100 shepherd-nodes.
 
 A data-viewer would allow to identify points of interest by quickly skimming over the dataset. The ability to zoom into the traces is a required feature. As it is also possible to sample digital signals it would be also nice to have an option to decode protocols like uart.
 
@@ -15,9 +15,9 @@ Each `Shepherd Node` produces:
 - IV-Samples (voltage & current) with 100 kHz and 18bit resolution
 - event based gpio-sampling of 10 pins (with at least one high-speed capable uart good for 4 - 10 MBaud)
 
-The datalib allows to plot parts of the ivsample-recording ⇾ [CLI-Interface ⇾ Plot IVSamples](https://github.com/orgua/shepherd-datalib#cli-interface>). Multiplots for several recordings are supported, as well as prior downsampling.
+The data-tool allows to plot parts of the ivsample-recording ⇾ [CLI-Interface ⇾ Plot IVSamples](https://github.com/nes-lab/shepherd-tools#cli-interface>). Multiplots for several recordings are supported, as well as prior downsampling.
 
-There is a basic implementation of a [viewer based on DPG](https://github.com/orgua/shepherd_v2_planning/blob/main/scratch/shepherd_dataview/viewer.py>). It is limited to one recording, only IVSamples and is not optimized at all. So recordings >60s are challenging because there is no downsampling depending on the zoom-levels.
+There is a basic implementation of a [viewer based on DPG](https://github.com/orgua/shepherd-v2-planning/blob/main/scratch/shepherd_dataview/viewer.py>). It is limited to one recording, only IVSamples and is not optimized at all. So recordings >60s are challenging because there is no downsampling depending on the zoom-levels.
 
 The Saleae Logic tool has an [open api](https://support.saleae.com/extensions/api-documentation) and file format, but does only support gpio- and voltage-traces. Shepherd features also current-traces or derived power-traces.
 
@@ -65,10 +65,10 @@ For bundling and filtering plots in an overview-page:
 
 More Info on current GPIO-Pins routed to the targets:
 
-- [General Info](https://orgua.github.io/shepherd/dev/v2_improvements.html#pins-to-target)
-- [Bit Position Info included in H5-File](https://github.com/orgua/shepherd/blob/main/software/python-package/shepherd/commons.py#L38)
+- [General Info](https://nes-lab.github.io/shepherd/dev/v2_improvements.html#pins-to-target)
+- [Bit Position Info included in H5-File](https://github.com/nes-lab/shepherd/blob/main/software/python-package/shepherd/commons.py#L38)
 
 ## Test-Data
 
-- the [datalib-examples](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_data/examples/example_convert_ivonne.py) can produce initial datasets
+- the [tool-examples](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_data/examples/example_convert_ivonne.py) can produce initial datasets
 - TBD

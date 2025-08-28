@@ -9,7 +9,7 @@
     - 1270057 → kai
     - 1270060 → new LabTester
 
-Remaining PCBs became the first testbed-instance at TUD. See [Doc Testbed](https://github.com/orgua/shepherd_v2_planning/tree/main/doc_testbed)
+Remaining PCBs became the first testbed-instance at TUD. See [Doc Testbed](https://github.com/orgua/shepherd-v2-planning/tree/main/doc_testbed)
 
 ## Manual Soldering
 

@@ -5,15 +5,15 @@ This document is for tracking backports made for v1 branch
 ## Intro
 
 - for hw revision 1.x
-- where: https://github.com/orgua/shepherd/tree/hw_revision_1.x
+- where: https://github.com/nes-lab/shepherd/tree/hw_revision_1.x
 - branched on 15. Jan 2021 [52f087a]
 - currently 227 commits behind main
     - main is not stable, fall back to [1c02230] 21. Feb 2021 (branch "fw_ok")
 - comparison
-    - legacy (15. Jan) vs fw_ok ⇾ https://github.com/orgua/shepherd/compare/hw_revision_1.x...orgua:fw_ok
-    - legacy (20. Apr) vs master ⇾ https://github.com/orgua/shepherd/compare/hw_revision_1.x...orgua:master
-        - "two points"-Compare seem to be more helpful https://github.com/orgua/shepherd/compare/orgua:master..orgua:hw_revision_1.x
-    - legacy (20. Apr) vs master ⇾ https://github.com/orgua/shepherd/compare/fw_ok..orgua:master
+    - legacy (15. Jan) vs fw_ok ⇾ https://github.com/nes-lab/shepherd/compare/hw_revision_1.x...orgua:fw_ok
+    - legacy (20. Apr) vs master ⇾ https://github.com/nes-lab/shepherd/compare/hw_revision_1.x...orgua:master
+        - "two points"-Compare seem to be more helpful https://github.com/nes-lab/shepherd/compare/orgua:master..orgua:hw_revision_1.x
+    - legacy (20. Apr) vs master ⇾ https://github.com/nes-lab/shepherd/compare/fw_ok..orgua:master
 
 
 ## Improvements 2021-06-01

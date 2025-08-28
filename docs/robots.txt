@@ -1,3 +1,3 @@
 User-agent: *
 
-Sitemap: https://orgua.github.io/shepherd_dev_log/sitemap.xml
+Sitemap: https://orgua.github.io/shepherd-v2-planning/sitemap.xml

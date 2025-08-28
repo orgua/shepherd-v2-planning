@@ -77,4 +77,4 @@ Functional Account::
 
 ### Final Solution
 
-can be found in https://github.com/orgua/shepherd/blob/main/deploy/setup_zih_datastorage.yml
+can be found in https://github.com/nes-lab/shepherd/blob/main/deploy/setup_zih_datastorage.yml

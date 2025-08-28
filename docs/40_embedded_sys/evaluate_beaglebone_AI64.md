@@ -6,7 +6,7 @@
 - feels outdated: despite huge heat sink not stable without active cooling or optimized airflow
 - as a dev-platform hard to manage, with > 20'000 pages of documentation for the SOC
 - feels overloaded: too many layers of complexity with 20 listed coprocessors
-- software not ready - as [ptp still has issues](https://github.com/orgua/shepherd/blob/dev/software/test_timesync/Readme_D_analysis.md)
+- software not ready - as [ptp still has issues](https://github.com/nes-lab/shepherd/blob/dev/software/test_timesync/Readme_D_analysis.md)
 
 ## Advantages
 
@@ -316,7 +316,7 @@ Additional Steps for PTP-Eval-Testrun:
 
 ```shell
 sudo apt install linuxptp ntpdate
-git clone https://github.com/orgua/shepherd.git
+git clone https://github.com/nes-lab/shepherd.git
 cd shepherd
 git checkout Kernel510
 git pull

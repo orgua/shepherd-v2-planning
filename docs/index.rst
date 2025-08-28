@@ -2,9 +2,9 @@
 Welcome to Shepherd's DevLog!
 =============================================
 
-Main-Documentation: https://orgua.github.io/shepherd
+Main-Documentation: https://nes-lab.github.io/shepherd
 
-Source to this DevLog: https://github.com/orgua/shepherd_v2_planning
+Source to this DevLog: https://github.com/orgua/shepherd-v2-planning
 
 .. Note::
    The included search-function is often able to find the needle in the haystack (especially in the overwhelming dev-log)

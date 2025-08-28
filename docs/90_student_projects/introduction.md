@@ -1,6 +1,6 @@
 # Introduction
 
-The [issue-section](https://github.com/orgua/shepherd/issues) of the main-repo contains a roadmap of future implementations that are planned for the testbed. A subset is suitable for student projects. Some even qualify to be used as topics for a bachelor or master thesis.
+The [issue-section](https://github.com/nes-lab/shepherd/issues) of the main-repo contains a roadmap of future implementations that are planned for the testbed. A subset is suitable for student projects. Some even qualify to be used as topics for a bachelor or master thesis.
 
 Projects with detailed sub-pages:
 

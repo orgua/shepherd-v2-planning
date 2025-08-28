@@ -252,7 +252,7 @@ another approach is https://github.com/raspberrypi/utils/blob/master/pinctrl/gpi
 
 ```shell
 sudo apt install git
-git clone https://github.com/orgua/shepherd
+git clone https://github.com/nes-lab/shepherd
 cd shepherd/software/kernel-module/src/
 git checkout Kernel66RPi5
 

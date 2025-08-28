@@ -88,4 +88,4 @@ Includes programmer.c and jumps into programmer()-fn when "state" != IDLE or ERR
 - implement variable pin-choice (4 banks á 32 pins ⇾ 128 n)
 - plausibility-check of programmer-struct in kernel-module / sysFS before allowing "start"
 - firmware-size is probably more useful in sysfs
-- generalize concept, ideas documented [here](https://github.com/orgua/shepherd/issues/23)
+- generalize concept, ideas documented [here](https://github.com/nes-lab/shepherd/issues/23)

@@ -13,7 +13,7 @@ Algorithms used:
 - `cv20`: constant voltage of 2.0 V
 - `ivcurve`: postponed harvesting by sampling ivcurves (voltage stepped as sawtooth-wave)
 
-- [harvesting Profiles in detail](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
+- [harvesting Profiles in detail](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 
 Commands used:
 
@@ -79,7 +79,7 @@ Due to the 50 Hz line flicker every current ramp is uniquely shaped.
 
 ### Extra IVCurve-Processing
 
-Using the given [vHarv-Example-code](https://github.com/orgua/shepherd-datalib/blob/main/shepherd_core/examples/vharvester_simulation.py) shows discrepancies when working with IVCurves.
+Using the given [vHarv-Example-code](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_core/examples/vharvester_simulation.py) shows discrepancies when working with IVCurves.
 
 ```
 E_out = 17.279 mWs -> cv20

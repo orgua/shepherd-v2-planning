@@ -115,7 +115,7 @@
         - BAR-AP-A-II73 (II65_S3_C_17)
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren bzw. öffentlich genutzen Räumen benutzen
-    - siehe Liste unter <https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods>
+    - siehe Liste unter <https://github.com/orgua/shepherd-v2-planning/blob/master/10_cfaed_ethernet_ports.ods>
     - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - Kontrolle über POE
     - laut ZIH denkbar, wenn ein dedizierter Switch für den Prüfstand zum Einsatz kommt
@@ -174,7 +174,7 @@
         - BAR-AP-A-II73 (II65_S3_C_17)
 - zu beschaltene NW-Dosen
     - Laut Aussage vom ZIH dürften wir (mit niedrigster Priorität) ebenfalls NW-Dosen auf den Fluren benutzen
-    - siehe Liste unter <https://github.com/orgua/shepherd_v2_planning/blob/master/10_cfaed_ethernet_ports.ods>
+    - siehe Liste unter <https://github.com/orgua/shepherd-v2-planning/blob/master/10_cfaed_ethernet_ports.ods>
     - Dosen bleiben weiterhin normal benutzbar, da vLAN per MAC-Filter funktioniert
 - NW-Switch in Raum II65
     - GBE (maximal benötigte Geschwindigkeit)

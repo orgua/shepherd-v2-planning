@@ -5,7 +5,7 @@
 ## Install on System
 
 ```Shell
-sudo git clone https://github.com/orgua/shepherd
+sudo git clone https://github.com/nes-lab/shepherd
 cd /shepherd
 pip install --upgrade ansible
 ansible-playbook ./deploy/deploy.yml
@@ -114,7 +114,7 @@ sudo umount /var/shepherd/recordings
 
 ## Programming Target
 
-**DEPRECATED** - use https://github.com/orgua/shepherd-targets
+**DEPRECATED** - use https://github.com/nes-lab/shepherd-targets
 
 Compile a demo 'https://github.com/geissdoerfer/shepherd-nrf52-demo'
 

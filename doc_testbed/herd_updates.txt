@@ -9,7 +9,7 @@ shepherd-herd -v shell-cmd -s 'apt --yes --force-yes install srecord'
 
 shepherd-herd -v shell-cmd -s 'pip install shepherd-core -U'
 shepherd-herd -v shell-cmd -s 'pip uninstall shepherd-core -y'
-shepherd-herd -v shell-cmd -s 'pip install git+https://github.com/orgua/shepherd-datalib.git@dev#subdirectory=shepherd_core -U'
+shepherd-herd -v shell-cmd -s 'pip install git+https://github.com/nes-lab/shepherd-tools.git@dev#subdirectory=shepherd_core -U'
 shepherd-herd -v shell-cmd -s 'pip install pydantic -U'
 shepherd-herd -v shell-cmd -s 'python3 -m timeit -n 1 -r 1 "import shepherd_core"'
 

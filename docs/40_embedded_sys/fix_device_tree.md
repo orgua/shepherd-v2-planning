@@ -31,7 +31,7 @@ Original DT-Driver from shp v1 fails to work with 4.19 or newer.
 
 ```Shell
 cd ~/
-git clone https://github.com/orgua/shepherd
+git clone https://github.com/nes-lab/shepherd
 cd shepherd/software/firmware/device-tree
 make && sudo make install
 # add to /boot/uEnv.txt
