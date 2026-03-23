@@ -1,0 +1,37 @@
+datatype: CalibrationCape
+created: 2026-03-20 10:22:56.691675+02:00
+parameters:
+  cape:
+    version: 25E0
+    serial_number: 2025_EMU_019
+  host: sheep0
+  harvester:
+    dac_V_Hrv:
+      gain: 7.629510948348211e-05
+      offset: -0.0
+      unit: V
+    dac_V_Sim:
+      gain: 7.629510948348211e-05
+      offset: -0.0
+      unit: V
+    adc_V_Sense:
+      gain: 1.953125e-05
+      offset: -0.0
+      unit: V
+    adc_C_Hrv:
+      gain: 2.0345052083333335e-07
+      offset: -0.0
+      unit: A
+  emulator:
+    dac_V_A:
+      gain: 7.622539579951828e-05
+      offset: 0.000661945544105968
+    dac_V_B:
+      gain: 7.622177835384591e-05
+      offset: 0.00013557168860138088
+    adc_C_A:
+      gain: 2.024559349666633e-07
+      offset: -9.773176643007144e-05
+    adc_C_B:
+      gain: 2.0254897284243546e-07
+      offset: -9.880760147834436e-05
