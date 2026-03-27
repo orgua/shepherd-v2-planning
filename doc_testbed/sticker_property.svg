@@ -9,7 +9,7 @@
    id="svg1"
    xml:space="preserve"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
-   sodipodi:docname="sticker_property2.svg"
+   sodipodi:docname="sticker_property.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -25,12 +25,12 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="2"
-     inkscape:cx="420.25"
+     inkscape:cx="420.5"
      inkscape:cy="297.75"
      inkscape:window-width="2668"
      inkscape:window-height="2113"
-     inkscape:window-x="1222"
-     inkscape:window-y="125"
+     inkscape:window-x="1154"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="g17" /><defs
      id="defs1" /><g
@@ -63,7 +63,7 @@
            style="font-size:3.37071px;text-align:center;text-anchor:middle;stroke-width:0.264583"
            x="48.451435"
            y="82.69268"
-           id="tspan17">shepherd.cfaed.tu-dresden.de</tspan></text><image
+           id="tspan17">testbed.nes-lab.org</tspan></text><image
          width="57.858891"
          height="12.204611"
          preserveAspectRatio="none"
