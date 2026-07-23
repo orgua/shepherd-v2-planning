@@ -2,9 +2,13 @@
 
 ## Main-Changes
 
-- switch from Beaglebone to Raspberry Compute Module (CM4 for now)
-- design modular sub-PCBs
+- design modular sub-PCBs, to
+  - reduce complexity
+  - make iterations easier
+  - reduce cost (cape is either hrv or emu)
+  - trivial switching of platform
 - allow 4 Targets
+- prepare support for Raspberry Compute Module (CM4 for now)
 
 ## TODO NextGen
 
@@ -65,7 +69,7 @@ Header
 
 Content
 
-- MCU (maybe RP2040)
+- MCU (maybe RP2350)
 - DACs & ADCs, Current-Shunt
 
 Header
@@ -104,7 +108,7 @@ Voltage-Rating of Current-Sensing-Input of Harvester
 
 Content
 
-- MCU (maybe RP2040)
+- MCU (maybe RP2354B)
 - levelshifter
 - Current limiting resistors
 - voltage buffer?
@@ -161,7 +165,7 @@ PI5A4158ZA (for gpio-routing)
 - for more target-ports (=4)
 - TODO: look through old notes, update PI-Altium data
 
-## RPi + RP2040
+## RPi + RP2354B
 
 Pi-40Pin-Header
 - 28 GPIO, 2 SPI, 1 UART, SDIO
@@ -179,26 +183,26 @@ Pi5
 - RP1 handles most IO - not well documented ATM
   - triggering sync-gpio from kernel-module is harder (TBD)
 
-- RP2040
+- RP2350
   - pin 50..56 seems to have quad SPI (separate from GPIO)
-  - USB2.0 Controller, Full Speed 12 Mbps
-  - 30 GPIO
+  - USB1.1 Controller, Full Speed 12 Mbps
+  - 30+ GPIO
 
 ```ad-todo
-- determine max SPI-Speed (rpi4-to-rp2040)
-- determine max usb-throughput (rpi4-to-rp2040)
+- determine max SPI-Speed (rpi4-to-RP2350)
+- determine max usb-throughput (rpi4-to-RP2350)
 - do a demo pcb
 - pcb for adapting new target
-- firmware-update-options for RP2040
-- rp2040 needs a big FIFO, option: program MCU directly and use large QSPI-Flash for
+- firmware-update-options for RP2350
+- RP2350 needs a big FIFO, option: program MCU directly and use large QSPI-Flash for
   - FRAM SPI Flash
   - but also RAM via SPI,
 - pio example available - 48 MHZ, 8 bit wide, 380 Mbit
   - pio - fifo - dma - ram
-- option for interface RPI - RP2040
+- option for interface RPI - RP2350
   - direct SPI
   - ~~usb1.1 Full-Speed~~
-  - RPI - usb3 - usb3-hub - ftdi QSPI - rp2040
+  - RPI - usb3 - usb3-hub - ftdi QSPI - RP2350
   - parallel interface
   - cypress - usb2 480 MBit - free programmable - i.e. massstorage -
     - https://www.infineon.com/cms/en/product/universal-serial-bus/usb-peripheral-controllers-for-superspeed/ez-usb-fx3-usb-5gbps-peripheral-controller/
@@ -206,8 +210,8 @@ Pi5
     - usb-analyzer: https://www.ellisys.com/products/usbcompare.php
   - sdio
 - Test:
-  - RP2040 - serial usb firmware - max output - receive per terminal -
-    - rpi should ask interface regularly, buffer on rp2040 should not overflow
+  - RP2350 - serial usb firmware - max output - receive per terminal -
+    - rpi should ask interface regularly, buffer on RP2350 should not overflow
     -
 - SDIO is documented in https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf, Chapter 4, Page 60
 ```
