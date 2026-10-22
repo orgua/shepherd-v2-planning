@@ -75,6 +75,7 @@ TODO: should be verified in general from time to time!
   - least jitter (best first): HRTIMER_MODE_ABS_HARD, HRTIMER_MODE_ABS_PINNED_HARD, HRTIMER_MODE_ABS
 
 TODO:
+
 - change prio of kernel module?
 
 ```shell
@@ -165,11 +166,11 @@ TODO
 
 Resources:
 
-- https://stackoverflow.com/questions/44930443/how-are-the-steps-to-access-gpios-in-linux-kernel-modules
-- http://elinux.org/images/9/9b/GPIO_for_Engineers_and_Makers.pdf
+- <https://stackoverflow.com/questions/44930443/how-are-the-steps-to-access-gpios-in-linux-kernel-modules>
+- <http://elinux.org/images/9/9b/GPIO_for_Engineers_and_Makers.pdf>
   - `/sys/bus/gpio/devices/gpiochip2`
   - `/sys/bus/gpio/devices/gpiochip2/gpio/gpio65/value`
-- https://github.com/jsln/pps-gen-gpio
+- <https://github.com/jsln/pps-gen-gpio>
 
 Solution: write directly to registers
 
@@ -180,7 +181,7 @@ This produced 2 two branches
 
 ## Eval for new platforms
 
-TLDR: A dedicated Software-Analysis and Tutorial is located here: https://github.com/nes-lab/shepherd/tree/dev/software/test_timesync
+TLDR: A dedicated Software-Analysis and Tutorial is located here: <https://github.com/nes-lab/shepherd/tree/dev/software/test_timesync>
 
 - there is a [ptp-hat for raspberry](https://hackaday.com/2021/08/16/new-part-day-raspberry-pi-hat-for-ieee1588-precision-time-protocol/) now
 - `ethtool -T eth0` shows BB AI 64 is already capable (per software)
@@ -196,15 +197,15 @@ TLDR: A dedicated Software-Analysis and Tutorial is located here: https://github
 - box-plot of channel-diffs
 - CLI
 - improve kMod
-    - 30 us capture does not suffice!
-    - first non-busy-wait (100us) ⇾ shorter busy-wait (10) ⇾ loop-count (<1)
-    - retest timing-performance
-    - make
+  - 30 us capture does not suffice!
+  - first non-busy-wait (100us) ⇾ shorter busy-wait (10) ⇾ loop-count (<1)
+  - retest timing-performance
+  - make
 - reduce load (py) - read from PRU
-    - sharedMem.read_buffer(): np.frombuffer() ⇾ DataBuffer(voltage, current)
-    - shpIO.get_buffer(): buf ⇾ buf
-    - ShpEmu.run(): buf ⇾ writer.write_buffer(buf)
-    - writer.write_buffer(): add parts of buf to group[]
+  - sharedMem.read_buffer(): np.frombuffer() ⇾ DataBuffer(voltage, current)
+  - shpIO.get_buffer(): buf ⇾ buf
+  - ShpEmu.run(): buf ⇾ writer.write_buffer(buf)
+  - writer.write_buffer(): add parts of buf to group[]
 - name threads & change their prio?
 - code from pps-kernel-module
 - update kernel and try reduced module

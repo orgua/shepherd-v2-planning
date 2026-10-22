@@ -13,7 +13,7 @@ Status 2024-02: still not produced - maybe skipped for switching platform
 - stabilize 10 mV ⇾ 1uF increase to 2x 10uF, 2R increase to 10R
 - replace electrolytic Caps by MLCC (Optionals on Backside)
 
-⇾ implemented in V2.5a - https://github.com/orgua/shepherd-v2-planning/tree/main/PCBs/shepherd_cape_v2.5a
+⇾ implemented in V2.5a - <https://github.com/orgua/shepherd-v2-planning/tree/main/PCBs/shepherd_cape_v2.5a>
 
 ## Implemented Changes v2.5b/c
 
@@ -68,6 +68,7 @@ Status 2024-02: still not produced - maybe skipped for switching platform
   - 5.1k 0402 667-ERJ-2RKF5101X -> 603-RC0402FR-075K1L
 
 BOM-Additions:
+
 - 60x 649-77313-802-46LF, header 2x23
 - 10x 667-ERA-3ARW102V, 1k-0603-0.05%
 - 10x 754-RG1608N-101-W-T1, 100R-0603-0.05%
@@ -79,6 +80,7 @@ Manual Mods (not final):
 - xp: 10mV Ref input - C149 - 1uF + 10uF
 
 TODO:
+
 - software changes
 - harvester seems a bit too fast - current is overswinging - see SM141K04LV ivcurve
 - disable GPIO IO if voltage is cut (due to low_threshold)
@@ -92,7 +94,7 @@ TODO:
 
 ### Target Port - Cape 2.4
 
-```
+```text
 pru_reg     name            BB_pin	sys_pin sys_reg
 r31_00      TARGET_GPIO0    P8_45	P8_14, g0[26] -> 26
 r31_01      TARGET_GPIO1    P8_46	P8_17, g0[27] -> 27
@@ -108,7 +110,7 @@ r30_09/out  TARGET_BAT_OK   P8_29	-
 
 ### Target Port - Cape 2.5
 
-```
+```text
 pru_reg       name              BB_pin	sys_pin sys_reg
 pru1_r31_00   TARGET_GPIO0/uRx  P8_45	P9_26, g0[14] -> 14 (also Sys/PRU-UART)
 pru1_r31_01   TARGET_GPIO1/uTx  P8_46	P9_24, g0[15] -> 15 (also Sys/PRU-UART)
@@ -128,7 +130,7 @@ pru0_r30_06   PWR_GOOD_H        P9_41B    (was CS_ADC1_REC), gets added to bit 1
 pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
 ```
 
-# solder paste
+## solder paste
 
 - loctite GC 10 only 100 g and more
 - chip quik
@@ -140,11 +142,11 @@ pru0_r30_07   -                 P9_25     (was CS_ADC2_REC)
   - T6 (5-15)
   - SMDLTLFP10T5, 35g, T5, Sn42/Bi57.6/Ag0.4, Lead Free, Low Temperature
   - **SMD291SNL10T5**, 35g, T5 (15-25 microns), Sn96.5/Ag3.0/Cu0.5, Lead Free, 217-220C, refridge > 6 month, room > 2 month
-  - good filters: https://www.chipquik.com/store/product_info.php?products_id=440012
+  - good filters: <https://www.chipquik.com/store/product_info.php?products_id=440012>
 - msp430FR-datasheet states compliance to jedec j-std-020 reflow profile
 - ordered: 31 parts Target, SMD291SNL10T5, TS391LT50
 
-# extra PCBs
+## extra PCBs
 
 - RP2350 - test - connector
 - harvesting frontends

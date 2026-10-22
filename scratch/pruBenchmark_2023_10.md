@@ -13,7 +13,6 @@
   - 3200 ns calc_out_pwr, update_cap_storage
   - _750 ns DAC-Writing
   - _170 ns write IV to ring
-
 - _160 ns check conditions
 - _780 ns Buffer-swap (every 10us)
 OR
@@ -35,21 +34,20 @@ OR
 
 ### time budgets
 
- - _165 ns gpio-sampling READ
-   - _160 ns min duration blind
-   - _195 ns mean duration blind
-   - 5970 ns max duration blind - OLD (write, events & ram-read)
-   - 3718 ns max duration blind - with ram-read-split
-   - _660 ns write
-
+- _165 ns gpio-sampling READ
+  - _160 ns min duration blind
+  - _195 ns mean duration blind
+  - 5970 ns max duration blind - OLD (write, events & ram-read)
+  - 3718 ns max duration blind - with ram-read-split
+  - _660 ns write
 - _180 ns Event1 - timestamping for kernel (every 100 ms, 1 ms before E2)
 - _304 ns Event2 - trigger remote bufferswap on pru0 (every 100 ms)
 - _210 ns Event3 - trigger remote sampling on pru0 (every 10 us)
 - _620 ns read IV-Values from RAM-Buffer for pru0 (every 10 us)
-   - _525 min, 620 mean, 5350 max (both at once)
-   - _270 min, 310 mean, 3500 max (split reads, each)
+  - _525 min, 620 mean, 5350 max (both at once)
+  - _270 min, 310 mean, 3500 max (split reads, each)
 
- xxx ns process pru0-util-monitor
+  xxx ns process pru0-util-monitor
 
 ## optimizations
 
@@ -67,12 +65,13 @@ OR
 ### static voltage, only current-tracing
 
 pru0
+
 - ~ 1000 ns ADC & Store
 - could actuate gpio now (cpu-registers)
 
 pru1
-- does not have to read from RAM
 
+- does not have to read from RAM
 
 ## setup
 

@@ -4,7 +4,6 @@
 - RPi4 & RPi5 have hardware-timestamping
 - various RAM and eMMC configurations
 
-
 ## Info
 
 - [first step](https://www.raspberrypi.com/documentation/computers/compute-module.html#setting-up-the-cmio-board)
@@ -14,18 +13,16 @@
 ## Eval
 
 - Pi OS Lite, 64-bit, Kernel 6.1, debian 12 bookworm
-    - flashed directly to eMMC (see first steps): add jumper to disable eMMC-Boot, run rpiboot-program and then imager
-    - **hostname: sheep40 - sheep42**
-    - **user: jane, temppwd**
-    - **enable ssh with pw**
+  - flashed directly to eMMC (see first steps): add jumper to disable eMMC-Boot, run rpiboot-program and then imager
+  - **hostname: sheep40 - sheep42**
+  - **user: jane, temppwd**
+  - **enable ssh with pw**
 - Barrel-Connector can take 7.5 to 28V (if no PCIe is used)
 - at rest system draws 136mA @ 10V
   - with disabled BT & WIFI, 122mA @ 10V (J3 - short all 3 Pins)
 - Platform seems a lot more up to date than the BB-AI64
   - cpu survives without cooling and is only slightly warm
   - BB-AI64 has a big heatsink and dies if it is places upside down for some minutes
-
-
 
 ### Update System and remove not needed services
 
@@ -107,7 +104,6 @@ sudo nano /boot/firmware/config.txt
 - `raspi-gpio set X op` sets GPIO pin X as an output
 - `raspi-gpio set X dh` sets GPIO pin X to drive high
 - `raspi-gpio set X dl` sets GPIO pin X to drive low
-
 - going for GPIO21, last one on the connector
 - J8-P40: GPIO21 (upper right corner)
 - J8-P39: GND (lower right corner)
@@ -136,12 +132,12 @@ ls -ltr /sys/class/gpio/gpiochip*
 # ⇾ hints @ something like 0x200000
 ```
 
-(BCM2711-datasheet](https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf)
+(BCM2711-datasheet](<https://datasheets.raspberrypi.com/bcm2711/bcm2711-peripherals.pdf>)
 
 - 32-bit registers
 - gpio register base address 0x7e200000
 
-```
+```text
 # set gpio21 to output
 GPFSEL2[5:3] = 001
 # 0x7e200000 + 0x8
@@ -155,7 +151,6 @@ GPLEV0[21]       # read value
 ```
 
 **IMPORTANT NOTE**: GPIO is really at 0xfe200000. Datasheet for the BCM2711 shows 2-stage remapping on page 5
-
 
 ### add Kernel Module
 
@@ -233,6 +228,7 @@ sudo cpufreq-set --governor ondemand
 ```
 
 Final-Setting:
+
 - 2000 MHz in `/boot/config.txt`
 - Performance-Gov in `/etc/default/cpufr` added to ptp-service
 
@@ -244,14 +240,14 @@ Configured PTP4L and Phc2sys like shown in AI64.md, changes from that:
 - phc prio reduced from x to 70
 - set governor to performance in phc-service ExecStartPre `-/usr/bin/cpufreq-set --governor performance`
 - ptp4l.conf
-  - # run time options
-  - tx_timestamp_timeout  1 ⇾ 10
+  - ## run time options
+  - tx_timestamp_timeout 1 ⇾ 10
   -
-  - # servo options
+  - ## servo options
   - pi_proportional_exponent -0.3 ⇾ ~~-0.5~~
   - pi_integral_exponent 0.4 ⇾ ~~0.2~~ made it faster? 0.4 worked better / slower
     - sync between clients was never that stable (007 ... 1u2)
-  - # default interface options
+  - ## default interface options
   - delay_filter_length 10 ⇾ 100
 - phc2sys
   - P kp 0.7 ⇾ 0.2

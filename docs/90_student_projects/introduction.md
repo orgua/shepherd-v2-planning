@@ -71,32 +71,31 @@ The sections below are a rough description of possible topics. [Contact us](http
 - radio on, rx on by setting a 32bit receive address, grab RSSI-Samples - only active until that address was received
 - 32bit address can be set to unlikely value, but it can still be triggered by accident / interference
 - host
-    - config ftdi chip
-    - select rf-channel
-    - start / stop
-    - timestamping?
+  - config ftdi chip
+  - select rf-channel
+  - start / stop
+  - timestamping?
 
 ## Determine Timings of the nRF52 RF-Frontend
 
 - motivation: synchronous transmission, sehr genaue sendezeitpunkte
 - problem:
-    - radio start-signal, delays bestimmen (verstärker an, einschwingen, usw.)
-    - gleiche geräte können eventuell funktionieren -> unterschiedliche devices problematisch
-    - nrf weist deutliche delays auf
+  - radio start-signal, delays bestimmen (verstärker an, einschwingen, usw.)
+  - gleiche geräte können eventuell funktionieren -> unterschiedliche devices problematisch
+  - nrf weist deutliche delays auf
 - Bilder: 1symb/1us
 - 1 Takt versatz im schlimmsten Fall 1/16MHz
 - Aufgabe:
-    - sende-delay nicht direkt beobachtbar
-    - empfangsdelay nur zusammen mit sende delay erfassbar
-    - wie rausrechnen?
-        - A: verschiedene radios, gleichunssystem
-        - B: messtechnik - ON AIR beobachten
+  - sende-delay nicht direkt beobachtbar
+  - empfangsdelay nur zusammen mit sende delay erfassbar
+  - wie rausrechnen?
+    - A: verschiedene radios, gleichunssystem
+    - B: messtechnik - ON AIR beobachten
 - Messung0: gpio versatz, tx erzeugt flanke - rx routet gpio durch PPI und gibt es auf anderen gpio -> Versatz messbar
 - Messung1: , empfänger vs sender, sync, eventuell auch ON-AIR
 - RSSISpy - Repo mit tutorial für main.c mit spy im packet layer, 17 vs 70 kB
 - Logic pro verifizieren - gps PPS
 - -> Email mit SideInfo von Carsten
 - [https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay](https://devzone.nordicsemi.com/f/nordic-q-a/83778/undocumented-tx---rx-radio-delay)
-
 - Timings des rf-frontends vermessen
 . Fmag ist Fabian, car bin ich.

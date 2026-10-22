@@ -21,18 +21,18 @@
 
 - (minor problem) watchdog will issue a reset for 0.4s after 3.7s of power-on
 - (severe) watchdog will issue a wake-signal every t_delay
-    - initial tests were done with "broken" beaglebone that did not act on a wake-signal during runtime
+  - initial tests were done with "broken" beaglebone that did not act on a wake-signal during runtime
 - (severe) diode from VDD5v to SYS5v introduced a lot of noise to the system (power-management seemed to have tried to switch to sys-power
-    - diode was added to allow operation from internal power
-    - use
+  - diode was added to allow operation from internal power
+  - use
 
 ## BBB behavior on Shutdown
 
-- 3V3       ⇾ 0V
-- VDD5V	    ⇾ 0V
-- SYS5V     ⇾ 1.16V
-- PWR_BTN	⇾ 3.74V
-- nRES_BTN  ⇾ 0.15V
+- 3V3 ⇾ 0V
+- VDD5V        ⇾ 0V
+- SYS5V ⇾ 1.16V
+- PWR_BTN    ⇾ 3.74V
+- nRES_BTN ⇾ 0.15V
 
 ## Beaglebone Pin-Schematic
 
@@ -45,5 +45,5 @@
 - add a diode, otherwise the 3v3 get shorted by Power-Button
 - the diode also protects against
 - (decide)
-    - use two diodes to get energy from ext5v and power-button
-    - use only 1 diode to power from ext5v. so watchdog is disabled when usb-powered
+  - use two diodes to get energy from ext5v and power-button
+  - use only 1 diode to power from ext5v. so watchdog is disabled when usb-powered

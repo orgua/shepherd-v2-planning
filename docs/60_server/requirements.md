@@ -7,8 +7,6 @@
 - ssh access (port 22) from outside and VLAN
 - ptp (port 319, 320)
 
-
-
 ## Server VM TUD
 
 ## Basic Specs

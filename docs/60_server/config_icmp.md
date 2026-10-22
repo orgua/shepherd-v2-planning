@@ -8,6 +8,7 @@ ICMP Timestamp Reply Information Disclosure
 SEVERITY: Low (2.1)
 PORT: general/icmp
 DESCR: The following response / ICMP packet has been received:
+
 - ICMP Type: 14
 - ICMP Code: 0
 

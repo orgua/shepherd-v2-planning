@@ -1,6 +1,6 @@
 ## Install
 
-git clone https://github.com/RobertCNelson/omap-image-builder
+git clone <https://github.com/RobertCNelson/omap-image-builder>
 cd ./omap-image-builder
 rm -rf ./git
 
@@ -25,9 +25,7 @@ For Debian based distros the prereqs are:
 - cdebootstrap
 - zstd
 - schroot
-- tree  (definitely)
-
-
+- tree (definitely)
 
 ## Run Ubuntu 20.04 Focal
 
@@ -66,7 +64,7 @@ scp service@141.76.39.100:/home/service/omap-image-builder/deploy/ubuntu-20.04.5
 
 ## run Ubuntu 22.04 focal (frankenstein)
 
-```
+```text
 ./RootStock-NG.sh -c neslab-ubuntu-focal-console-v4.19-ti-armhf
 # ⇾ does NOT work as used ubuntu image is determined by deb_codename
 ```
@@ -75,58 +73,70 @@ scp service@141.76.39.100:/home/service/omap-image-builder/deploy/ubuntu-20.04.5
 
 wireless - removable
 
-    bluetooth
-    hostapd
-    iw
-    wpasupplicant
+```text
+bluetooth
+hostapd
+iw
+wpasupplicant
 
-    bb-wl18xx-firmware
-    bb-wlan-defaults
+bb-wl18xx-firmware
+bb-wlan-defaults
+```
 
 functionality not needed
 
-    btrfs-progs
-    gnupg
-    hexedit
-    less            (⇾ nano)
-    pastebinit
-    vim
+```text
+btrfs-progs
+gnupg
+hexedit
+less            (⇾ nano)
+pastebinit
+vim
 
-    bb-bbai-firmware
-    bb-u-boot-am57xx-evm
-    sancloud-firmware
+bb-bbai-firmware
+bb-u-boot-am57xx-evm
+sancloud-firmware
+```
 
 additionally unneeded (to test)
 
-    linux-firmware      (+ comment-out "include_firmware")
-    libiio-utils        (industrial IO Subsystem)
-    cloud-guest-utils   (TODO, depends on fdisk, gdisk, python3)
-    wireguard-tools
+```text
+linux-firmware      (+ comment-out "include_firmware")
+libiio-utils        (industrial IO Subsystem)
+cloud-guest-utils   (TODO, depends on fdisk, gdisk, python3)
+wireguard-tools
+```
 
 switch to older kernel by default (focal)
 
-    bbb.io-kernel-4.19-ti
-    linux-image-4.19.94-ti-r73
-    4.19.94-ti-r73
-    4.19-ti
-    cmem = 4.16.00.01
-        ⇾ installs ti-cmem-{version}
-        https://github.com/rcn-ee/ti-cmem
-        https://github.com/rcn-ee/ipc-ludev
-        TODO: 4.20.00.01 could still be ok?
+```text
+bbb.io-kernel-4.19-ti
+linux-image-4.19.94-ti-r73
+4.19.94-ti-r73
+4.19-ti
+cmem = 4.16.00.01
+    ⇾ installs ti-cmem-{version}
+    https://github.com/rcn-ee/ti-cmem
+    https://github.com/rcn-ee/ipc-ludev
+    TODO: 4.20.00.01 could still be ok?
+```
 
 add functionality
 
-    zstd
+```text
+zstd
+```
 
 result
 
-    xz-v6   raw
-    323     1396        official repo
-    319 MB  1363 MB     home-build, unchanged   (50 MB ram usage)
-    150      578        without (1/2 of) above
-    147      571        apply above (except cloud-guest)
-    139      547        switch to 4.19           ⇾ works!
+```text
+xz-v6   raw
+323     1396        official repo
+319 MB  1363 MB     home-build, unchanged   (50 MB ram usage)
+150      578        without (1/2 of) above
+147      571        apply above (except cloud-guest)
+139      547        switch to 4.19           ⇾ works!
+```
 
 ## switch apt to jammy (dirty)
 

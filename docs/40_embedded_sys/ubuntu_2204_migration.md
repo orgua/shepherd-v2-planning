@@ -1,29 +1,28 @@
 # Migration to Ubuntu 22.04
 
 - starting-point is Ubuntu 20.04.04
-- release: https://rcn-ee.com/rootfs/ubuntu-armhf-22.04-console-v5.10-ti/ ⇾ bone ... console armhf
+- release: <https://rcn-ee.com/rootfs/ubuntu-armhf-22.04-console-v5.10-ti/> ⇾ bone ... console armhf
 - kernel 5.10.168-ti-r72
 - minimal image with 2.1 GB of free space
 - software versions on 20.04
-    - python 3.8.2
-    - numpy 1.17.7 ?
-    - skipy ?
-    - h5py 2.10.0
+  - python 3.8.2
+  - numpy 1.17.7 ?
+  - skipy ?
+  - h5py 2.10.0
 - software version on 22.04
-    - python 3.10.3 (significant speed boost)
-    - numpy 1.21.5
-    - skipy 1.7.1
-    - h5py 3.6.0
+  - python 3.10.3 (significant speed boost)
+  - numpy 1.21.5
+  - skipy 1.7.1
+  - h5py 3.6.0
 
 ## Install Steps
 
-- mostly: https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC
+- mostly: <https://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC>
 - flashing to eMMC via user-button was not active by default ⇾ activated by changing line in /boot/uEnv.txt
 - playbook bootstrap
-
 - optional highly manual interlude ⇾ update to ubuntu 22.04 release::
 
-```
+```text
 # this will leave you with newer package-versions
 # h5py has a memory-leak in version <3.5 that prevents you from emulating > 4h in one go
 [host] ansible-playbook deploy/setup_linux_configuration.yml
@@ -39,7 +38,6 @@
 - changed branch on sheep: git stash, git pull, git checkout hw_v2.2
 - playbook dev_rebuild_pru
 - test: sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
-
 - add usb-thumbdrive
 
 ```Shell
@@ -59,7 +57,7 @@ sudo dd if=/dev/mmcblk1 of=/var/shepherd/recordings/mmc_u224_k419_deployed.img
 
 ## Alternative to try: update python
 
-https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/pool/main/p/python3.11/
+<https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu/pool/main/p/python3.11/>
 
 ```Shell
 sudo apt install software-properties-common
@@ -81,11 +79,10 @@ sudo apt install python3.10
 - test newest kernel 5.10.100 ⇾ expected trouble with memory interface to pru
   - will downgrade to 4.19 for now
 - update apt-install-list against pip-list ⇾ fresh
-    - 29_improve...rst is a good base for setup
-
+  - 29_improve...rst is a good base for setup
 - failed unittests
-    cd /opt/shepherd/software/python-package/
-    sudo python3 setup.py test --addopts "-vvv"
+  cd /opt/shepherd/software/python-package/
+  sudo python3 setup.py test --addopts "-vvv"
 
 tests/test_sysfs_interface.py::test_calibration_settings[real_hardware] FAILED
 tests/test_sysfs_interface.py::test_initial_calibration_settings[real_hardware] FAILED
@@ -201,20 +198,19 @@ Quickfix:
 
 sudo apt install linux-headers-5.4.106-ti-r40
 
-wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/module.lds.S -O /usr/src/linux-headers-5.4.106-ti-r40/scripts/module.lds
+wget <https://raw.githubusercontent.com/torvalds/linux/master/scripts/module.lds.S> -O /usr/src/linux-headers-5.4.106-ti-r40/scripts/module.lds
 sudo sed -i '$ d' /usr/src/linux-headers-5.4.106-ti-r40/scripts/module.lds
 
 sudo nano /usr/src/linux-headers-5.4.106-ti-r40/scripts/Makefile.modpost
 
-
 cd /opt/shepherd/software/kernel-module/src
 
 also available:
+
 - .87-ti-r23
 - .93-ti-r24
 - .93-ti-r25
 - .106-ti-r26 to -r40
-
 - .47-ti-r12
 - .40-ti-r9
 
@@ -223,24 +219,23 @@ later:
 
 - emulation loop is too slow - with active harvester it is not RT, without hrv it takes ~ 8.3 / 10 us
 - current state, with[ns]:
-    - read          580     420
-    - calc_harv DIS 200     260, 740 en
-    - calc_inp      940
-    - spi_read      900
-    - calc_out      1960
-    - calc_cap      1500
-    - calc_state    1000
-    - spi_write     800
-    - calc_end      200
-    - kernelcom     140 or bufferswap 680 ⇾ now 800
+  - read          580     420
+  - calc_harv DIS 200     260, 740 en
+  - calc_inp      940
+  - spi_read      900
+  - calc_out      1960
+  - calc_cap      1500
+  - calc_state    1000
+  - spi_write     800
+  - calc_end      200
+  - kernelcom     140 or bufferswap 680 ⇾ now 800
 - util-manager shows that ram-read can take from 420 to ~3000 ns
-    - even with mean-util = 67 % max gets over 100 %
-    - sharedmem-read shows 160 ns (includes entering fn)
-    - solution: move expensive read to pru1
-
+  - even with mean-util = 67 % max gets over 100 %
+  - sharedmem-read shows 160 ns (includes entering fn)
+  - solution: move expensive read to pru1
 
 Transfer Speed per SSH, down 4.6 MB/s max
 
 ssh -Q ciphers
 scp -c aes128-ctr hans@10.0.0.9:/var/shepherd/recordings/
-scp -c aes128-gcm@openssh.com hans@10.0.0.9:/var/shepherd/recordings/
+scp -c <aes128-gcm@openssh.com> hans@10.0.0.9:/var/shepherd/recordings/

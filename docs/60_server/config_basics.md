@@ -13,25 +13,21 @@ sudo systemctl enable ssh
 # ⇾ seems all ok on the Server itself
 ```
 
-# Adapt Firewall
+## Adapt Firewall
 
 - selfservice ⇾ cloud service ⇾ enterprise cloud ⇾ vm management ⇾ fw rules
 - add vpn or your specific ip-group ⇾ reboot VM or wait till full our for update
 
-
-
-
-
-## Gruppenlaufwerk
+### Gruppenlaufwerk
 
 ZIH offers storage for measurement data within a day via web-form.
 
 - shepherdDS, 10TB
 - vs-grp04.zih.tu-dresden.de
 - weekly backup to central (26 week retention)
-- info: https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/datenspeicher/details#section-2-3
+- info: <https://tu-dresden.de/zih/dienste/service-katalog/arbeitsumgebung/datenspeicher/details#section-2-3>
 
-### Old Solution
+#### Old Solution
 
 ```Shell
 # sshfs-mount for Data-Gateway (seems to be the current solution)
@@ -60,7 +56,7 @@ nano /home/zihuser/.ssh/authorized_key
 # automount - add mount to ~/.bashrc
 ```
 
-### Better solution
+#### Better solution
 
 From Helpdesk:
 
@@ -72,9 +68,11 @@ Das Laufwerk ist ja auch nicht mit UNIX-Permissions sondern mit NTFS konfigurier
 
 Functional Account::
 
-    create: https://selfservice.zih.tu-dresden.de/l/index.php/login
-    overview: https://selfservice.zih.tu-dresden.de/l/index.php/flogin_mgmt#
+```text
+create: https://selfservice.zih.tu-dresden.de/l/index.php/login
+overview: https://selfservice.zih.tu-dresden.de/l/index.php/flogin_mgmt#
+```
 
-### Final Solution
+#### Final Solution
 
-can be found in https://github.com/nes-lab/shepherd/blob/main/deploy/setup_zih_datastorage.yml
+can be found in <https://github.com/nes-lab/shepherd/blob/main/deploy/setup_zih_datastorage.yml>

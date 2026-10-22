@@ -4,10 +4,10 @@
 
 - level translators - implement single voltage supply
 - smooth 6v-boost ⇾ larger capacitors 58uF to 158uF, ferrite, lower boost-voltage 5.38 V instead of 6.766
-    - typical on A5V are 38mA for Quiet/On, 150mA max, mp3221 gives formular for upper thresholds of Vpp
-    - old config: 164 uVpp (38mA) to 645 uVpp (150mA)
-    - new config: 27 uVpp (38mA) to 104 uVpp (150mA) ⇾ effect of ferrite not included
-    - LDO is rated for 60 dB dampening, but measurements show a factor of ~ 500x of ripple rejection
+  - typical on A5V are 38mA for Quiet/On, 150mA max, mp3221 gives formular for upper thresholds of Vpp
+  - old config: 164 uVpp (38mA) to 645 uVpp (150mA)
+  - new config: 27 uVpp (38mA) to 104 uVpp (150mA) ⇾ effect of ferrite not included
+  - LDO is rated for 60 dB dampening, but measurements show a factor of ~ 500x of ripple rejection
 - 6V Regulator overdrive is edgy, sw-pin is good for +8V, currently there are ~ 7.14 V
 - Target-IO-PUs - get powered by unmonitored voltage buffer
 - add 3v3 converter (linear), because BB provides very noisy power (both 5V & 3V)
@@ -18,24 +18,24 @@
 - mark ext input
 - sensitive lines should get more distance from gnd-polygon
 - consider ultra low noise ldo for -6 and 10V
-    - No suitable 5 to 10V voltage doubler found (fast switching, low noise)
-    - there are quiet inverters (LM27761) though
-    - see "noise_performance.rst" for more info
+  - No suitable 5 to 10V voltage doubler found (fast switching, low noise)
+  - there are quiet inverters (LM27761) though
+  - see "noise_performance.rst" for more info
 - adjusted Pads of some footprints - reduce width a bit when solder resist was too narrow on ICs
 - improve GPIO signal integrity (1k from target can be removed), 100k PU on Sys-Side replace by 10 k
 - better buffer the io voltage, needs single OPA, but gets rid of one NLAS-Switch
 - PI-Filter is bad for varying loads, so only use with dac / adc
-    - keep 100 uF constant, but vary inductance to optimize voltage drop ⇾ << 1 mV
+  - keep 100 uF constant, but vary inductance to optimize voltage drop ⇾ << 1 mV
 - external cables, filter and buffer (100nF)
 - (NOT DONE) if there is enough space ⇾ switch out 47uH Coil of LC-LP to 150uF (larger)
 - **gpio - RC lowpass** ⇾ Line-Capacity vs. current-limiting resistor
-    - L1L2 distance 2x 180 um, e_r ~4.2
-    - trace width 250 um
-    - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
-    - C = e*A/d = 3.4 pF ⇾ max capacitance of 1 gpio-trace on shepherd-pcb
-    - C_lvl = 12.5 pF
-    - R = 1k
-    - fc = 10 MHz (neglecting target and BB capacitances)
+  - L1L2 distance 2x 180 um, e_r ~4.2
+  - trace width 250 um
+  - length BB-Side [50; 87], LVL ~ 17, Target-Side [13; 27]
+  - C = e*A/d = 3.4 pF ⇾ max capacitance of 1 gpio-trace on shepherd-pcb
+  - C_lvl = 12.5 pF
+  - R = 1k
+  - fc = 10 MHz (neglecting target and BB capacitances)
 - re-evaluate spi-lines ⇾ fine
 - via-fence near the lan-port
 - QR-Code is readable, but still a bit messed up ⇾ negative
@@ -74,10 +74,10 @@
 ## Open Issues
 
 - additional PCB for POE
-    - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
-    - switching regulator for 12/9 to 6V
-    - linear regulator with proper noise resistance for 6 to 5V
-    - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
+  - poe is noisy (up to 25 mVpp for TL-POE10R, 300 mVpp for NoNameThing)
+  - switching regulator for 12/9 to 6V
+  - linear regulator with proper noise resistance for 6 to 5V
+  - OR just 2-Stage LC-LowPass (15uA / 770mA from previous Order), additional 100 uF
 - fix layerwindows
 - optimize position of current limiting resistors
 - power-supply-pins? upgrade path to stacked pcb, because current space is already maxed out

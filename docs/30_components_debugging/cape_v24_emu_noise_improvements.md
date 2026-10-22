@@ -7,7 +7,6 @@
 - Cape PCB v2.4
 - current measurement is noiser than expected
 
-
 ## TLDR - Proposed Design-Changes
 
 - 10R shunt has no advantages
@@ -22,15 +21,16 @@ nrf-only target ⇾ SMU shows 19nA
 nrf-msp-target shows 22nA ?!?
 
 All @3V
-- msp430fr	370 nA LPM4, RAM-off
-			45 nA LPM4.5
-- nrf52840	400 nA full off
-- AB1805  	55 nA with XTAL
-	⇾ expected target-deep-sleep of 500nA
+
+- msp430fr    370 nA LPM4, RAM-off
+  45 nA LPM4.5
+- nrf52840    400 nA full off
+- AB1805     55 nA with XTAL
+  ⇾ expected target-deep-sleep of 500nA
 
 ## Measurements
 
-```
+```text
 modded emu
 	mean: 1.6004410204895745e-05
 	min: 0.0

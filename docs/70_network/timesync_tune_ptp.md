@@ -4,7 +4,7 @@
 
 - ptp seems to sync too fast - the client is oscillating around 500 ns offset with +- 500 ns jitter
 - ptp seems to loose sync from time to time
-    - logs show a big jump in frequency and the node needs some minutes to recover
+  - logs show a big jump in frequency and the node needs some minutes to recover
 - setup - like in last doc "timesync_pru_level"
 
 ## Log of Losing Sync
@@ -42,7 +42,7 @@ sudo journalctl -u ptp4l (Client)
     ⇾ output of ptp-master shows no strange messages, BUT phc2sys on master
 ```
 
-```
+```text
 sudo journalctl -u phc2sys  (Master)
     Feb 16 10:58:22 sheep0 phc2sys[358]: phc2sys[1105.795]: sys offset      -316 s2
     Feb 16 10:58:23 sheep0 phc2sys[358]: phc2sys[1106.796]: sys offset      -321 s2
@@ -61,7 +61,7 @@ sudo journalctl -u phc2sys  (Master)
     Feb 16 10:58:36 sheep0 phc2sys[358]: phc2sys[1119.804]: sys offset     -3781 s2
 ```
 
-```
+```text
 cp /opt/shepherd/software/meta-package/example_config_harvest.yml /etc/shepherd/config.yml
 sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
 ```
@@ -69,11 +69,11 @@ sudo shepherd-sheep -vvv run --config /etc/shepherd/config.yml
 ## Config-tuning
 
 - found in /etc/linuxptp/ptp4l.conf
-- explained vars: https://www.mankier.com/8/ptp4l
+- explained vars: <https://www.mankier.com/8/ptp4l>
 
 Possible tuning-candidates
 
-```
+```text
 delay_filter_length     was 10 samples, try higher val, 100 is too much, 20
 egressLatency or ingressLatency, probably ingress to get rid of static offset
 clockAccuracy
@@ -82,7 +82,7 @@ clock_servo
 
 ### Tuning delay filter length to 20 - after 30min
 
-```
+```text
 (master)
 Feb 16 11:29:11 sheep0 phc2sys[358]: phc2sys[2954.880]: sys offset       -35 s2 freq  +59597 delay   3976
 Feb 16 11:29:12 sheep0 phc2sys[358]: phc2sys[2955.880]: sys offset        22 s2 freq  +59644 delay   3976
@@ -99,7 +99,7 @@ Feb 16 11:29:22 sheep0 phc2sys[358]: phc2sys[2965.885]: sys offset       -63 s2 
 Feb 16 11:29:23 sheep0 phc2sys[358]: phc2sys[2966.885]: sys offset       -52 s2 freq  +59416 delay   3991
 ```
 
-```
+```text
 (client)
 Feb 16 11:29:29 sheep1 ptp4l[378]: [2673.354] master offset        -14 s2 freq  +65139 path delay     12478
 Feb 16 11:29:30 sheep1 ptp4l[378]: [2674.355] master offset        -36 s2 freq  +65112 path delay     12478
@@ -119,7 +119,7 @@ Feb 16 11:29:41 sheep1 ptp4l[378]: [2685.362] master offset       -110 s2 freq  
 
 ### Tuning delay filter length to 20 - after 4h
 
-```
+```text
 (master)
 Feb 16 14:48:09 sheep0 phc2sys[358]: phc2sys[14892.879]: sys offset        -8 s2 freq  +67159 delay   3968
 Feb 16 14:48:10 sheep0 phc2sys[358]: phc2sys[14893.880]: sys offset        -3 s2 freq  +67162 delay   4000
@@ -136,7 +136,7 @@ Feb 16 14:48:20 sheep0 phc2sys[358]: phc2sys[14903.883]: sys offset       -10 s2
 Feb 16 14:48:21 sheep0 phc2sys[358]: phc2sys[14904.884]: sys offset        -8 s2 freq  +67161 delay   3976
 ```
 
-```
+```text
 (client)
 Feb 16 14:48:33 sheep1 ptp4l[378]: [14617.669] master offset         -9 s2 freq  +73133 path delay     12496
 Feb 16 14:48:34 sheep1 ptp4l[378]: [14618.669] master offset         42 s2 freq  +73181 path delay     12496
@@ -166,23 +166,23 @@ Feb 16 14:48:45 sheep1 ptp4l[378]: [14629.673] master offset        -94 s2 freq 
 - a higher filter length, shows very slow asymptotic behavior, but clock seems more stable ⇾ try higher pi_integral_value
 - change from 10 to 20 had huge success
 - change to 30 and restart of both nodes brought a very slow startup. 1800 s (30min) for sub 1 us (CS-edges)
-    - could be improved by raising limit for clock-skew
-    - ⇾ ptp4l-log does not show any improvements
+  - could be improved by raising limit for clock-skew
+  - ⇾ ptp4l-log does not show any improvements
 
 ## Clock-Crystal on BB
 
 - Schematic shows MC-306, an Epson 100ppm crystal, with two 18 pF Capacitors around (C_12)
 - Package says 32C846, so it is a unspecified replacement
 - a replacement part CM200C32768HZFT (5ppm, 12.5pF) from Citizen FineDevice has similar marking "32C826"
-    - there are 20, 10 and 5 ppm - Versions
-    - load capacitance CL: 6, 9, 12.5, 7 pF
-    - C_12 = 2 * (CL - C_Pin - C_pcb)
-        - with guesses for the unknown capacities: C_pin ~ 1 pF, C_pcb ~ 4pF (Script), C_12_max ~ 20 pF
-        - CL = C_12/2 + C_Pin + C_pcb = 18/2 + 1 + 4 = 14 pF ⇾ next best match is the 12.5 pF Version
+  - there are 20, 10 and 5 ppm - Versions
+  - load capacitance CL: 6, 9, 12.5, 7 pF
+  - C_12 = 2 * (CL - C_Pin - C_pcb)
+    - with guesses for the unknown capacities: C_pin ~ 1 pF, C_pcb ~ 4pF (Script), C_12_max ~ 20 pF
+    - CL = C_12/2 + C_Pin + C_pcb = 18/2 + 1 + 4 = 14 pF ⇾ next best match is the 12.5 pF Version
 - replaced client, master kept running, resync only took 80s and it was on a level that is similar to the previous 4h period
 
 ## TODO
 
 - try to check SERVO_LOCKED_STABLE, clock enters this state when timing is considered ok
-    - config: servo_offset_threshold, servo_num_offset_values
+  - config: servo_offset_threshold, servo_num_offset_values
 - there seem to be ptp-options in the switch

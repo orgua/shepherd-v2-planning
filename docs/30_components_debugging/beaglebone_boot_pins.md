@@ -40,42 +40,41 @@ Pin-Info
 
 - 1k input resistance is fine
 - shepherd PCB alone shows
-    - (fresh PCB) pin 41-46 has 110k to GND, 101k to 3v3  ⇾ maybe still a short
-    - (test PCB) pin 41-46 has open connection to GND, 101k to 3v3
+  - (fresh PCB) pin 41-46 has 110k to GND, 101k to 3v3 ⇾ maybe still a short
+  - (test PCB) pin 41-46 has open connection to GND, 101k to 3v3
 - with BB connected
-    - pin 41-44 show 44k to GND, 42k to 3v3
-    - pin 45/46 show 106k to GND, 100k to 3v3
+  - pin 41-44 show 44k to GND, 42k to 3v3
+  - pin 45/46 show 106k to GND, 100k to 3v3
 - previous 1.x hw-revision shows diodes to these pins, but this seems sub-optimal. makes pins to input-only, but only fast-switching for rising-edges
 - shepherd-enable (p8-13) stays low during boot ⇾ perfect to disconnect board from power
 - behavior of secondary pins (see table above)
-    - BOOT[0:3] stay low
-    - BOOT[4] stays high
-    - BOOT[5:7] high during boot (7.7) on sys with shepherd installed, stays high on fresh sys
+  - BOOT[0:3] stay low
+  - BOOT[4] stays high
+  - BOOT[5:7] high during boot (7.7) on sys with shepherd installed, stays high on fresh sys
 - disabling uart1 and i2c1 brings:
-    - BOOT[0:3] stay low
-    - BOOT[4:5] stays high
-    - BOOT[6:7] high during boot (7.7), then low
+  - BOOT[0:3] stay low
+  - BOOT[4:5] stays high
+  - BOOT[6:7] high during boot (7.7), then low
 - add uart1-pins to shepherd dts (and set p9-17 to also input pin)
-    - BOOT[0:3] stay low
-    - BOOT[4:7] high during boot (7.7), then low
+  - BOOT[0:3] stay low
+  - BOOT[4:7] high during boot (7.7), then low
 - booting with shepherd works with
-    - P8-44/45 disconnected, OR
-    - P8-15/16 disconnected, OR
-    - switching P8-15/16 (LOW) with P9-17/18 (HIGH) works!
-
+  - P8-44/45 disconnected, OR
+  - P8-15/16 disconnected, OR
+  - switching P8-15/16 (LOW) with P9-17/18 (HIGH) works!
 
 ## Changes to System
 
 - i2c1 is only for target-pin-header and can be disabled by default (needed for target-programmer later)
 - uart1 is disabled for now (to access pins in linux)
 - switch Boot[2:3] with other PRU-Pins that are high during boot
-    - OR disconnect pins when disabled
-    - switch P8-15/16 (LOW) with P9-17/18 (HIGH)
+  - OR disconnect pins when disabled
+  - switch P8-15/16 (LOW) with P9-17/18 (HIGH)
 - increase resistance of pru-pins, 10k should be fine, when only input
 - bat_ok can be at the end (of PRU-Pins), because it is write-only
 
 HW-Tests
 
-```
+```text
 sudo shepherd-sheep -vvv demo-functions
 ```

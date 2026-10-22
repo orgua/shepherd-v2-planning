@@ -14,29 +14,29 @@ Update 2024-01: Ubuntu 22.04 Images from [rcn-ee](https://rcn-ee.com/rootfs/) ar
 
 - BBone with Ubuntu 18.04.44, image from 2020-03, linux-image-4.19.94-ti-r36
 - Python 3.6
-    - scipy 0.19.1      ⇾ (1.7.0)
-    - numpy 1.13.3      ⇾ 1.19.5 (1.21.1)
-    - h5py 2.7.1        ⇾ 3.1 (3.3)
-    - setuptools 39.x,  ⇾ 57.4.0
-    - pip 9.x           ⇾ 21.2.1
+  - scipy 0.19.1      ⇾ (1.7.0)
+  - numpy 1.13.3      ⇾ 1.19.5 (1.21.1)
+  - h5py 2.7.1        ⇾ 3.1 (3.3)
+  - setuptools 39.x,  ⇾ 57.4.0
+  - pip 9.x           ⇾ 21.2.1
 - python 3.9.5 (ubuntu 21.04/hirsute)
-    - scipy 1.6.0
-    - numpy 1.19.5
-    - h5py 2.10.0
-    - pip 20.3.4
-    - setuptools 52.0.0
+  - scipy 1.6.0
+  - numpy 1.19.5
+  - h5py 2.10.0
+  - pip 20.3.4
+  - setuptools 52.0.0
 - manual update (brings solvable libcblas-trouble)
-    - setuptools 57.4.0
-    - pip 21.2.1
-    - numpy 1.21.2
-    - scipy 1.7.0
-    - h5py 3.4.0
+  - setuptools 57.4.0
+  - pip 21.2.1
+  - numpy 1.21.2
+  - scipy 1.7.0
+  - h5py 3.4.0
 - Kai reports that h5py v3.1 works with current shepherd-sw
 - I report that code is working after bringing libs to newest version
 
 ## Upgrading Ubuntu
 
-Tutorial: https://www.howtogeek.com/351360/how-to-upgrade-to-the-latest-version-of-ubuntu/
+Tutorial: <https://www.howtogeek.com/351360/how-to-upgrade-to-the-latest-version-of-ubuntu/>
 
 ```Shell
 sudo apt install update-manager-core
@@ -119,17 +119,18 @@ sudo apt remove  python3-numpy python3-h5py python3-scipy python3-h5py-serial py
 sudo apt install python3-numpy python3-h5py python3-scipy python3-h5py-serial python3-zmq python3-six python3-cryptography
 ```
 
-Alternative ⇾ fresh test-images, debian only: https://rcn-ee.com/rootfs/bb.org/testing/2021-07-26/buster-console/
+Alternative ⇾ fresh test-images, debian only: <https://rcn-ee.com/rootfs/bb.org/testing/2021-07-26/buster-console/>
 
 BBone PIP-Transactions can take forever, speedup by not installing from sources::
 
-    [sudo] /usr/bin/python3 -m pip install --upgrade wheel packetname
-
+```text
+[sudo] /usr/bin/python3 -m pip install --upgrade wheel packetname
+```
 
 ## Alternative to manual updating Distro
 
 - build or use fresher image
-- https://forum.digikey.com/t/debian-getting-started-with-the-beaglebone-black/12967#BeagleBoneBlack-Ubuntu20.04LTS
+- <https://forum.digikey.com/t/debian-getting-started-with-the-beaglebone-black/12967#BeagleBoneBlack-Ubuntu20.04LTS>
 
 ## New Packets
 
@@ -146,15 +147,15 @@ sudo apt install python3-msgpack-numpy
   - ubuntu 21.04/hirsute
 - shepherd.code is still functional with major updates of pypackets
 - Trouble
-    - some timejumps during recording detected (in 10s window)
-    - flushing and closing hdf5 file seems to hang at the end, some load
-    - a litte deprecation-warning for str-compares with "is"
-    - gevent.signal() is ancient ⇾ gevent.signal_handler()
+  - some timejumps during recording detected (in 10s window)
+  - flushing and closing hdf5 file seems to hang at the end, some load
+  - a litte deprecation-warning for str-compares with "is"
+  - gevent.signal() is ancient ⇾ gevent.signal_handler()
 - `sudo shepherd-sheep -vv run --config /etc/shepherd/config.yml`
-    - ~ 57 % cpu-load for recording, 118 MB Ram (85 MB before)
+  - ~ 57 % cpu-load for recording, 118 MB Ram (85 MB before)
 - EMU: `sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml`
-    - ~ 77 % cpu-load for emulation, 127 MB Ram (85 MB before) (verbose=3)
-    - only 63 to 68 % with verbose <= 2
+  - ~ 77 % cpu-load for emulation, 127 MB Ram (85 MB before) (verbose=3)
+  - only 63 to 68 % with verbose <= 2
 
 ```Shell
 sudo mount -t exfat /dev/mmcblk0p1 /var/shepherd/recordings2
@@ -193,18 +194,20 @@ sudo nano /etc/shepherd/config.yml
 
 useful commands::
 
-    pip3 install pipenv
-    # or
-    pipenv --rm
-    pip3 install --upgrade pipenv setuptools virtualenv pip six certifi distlib
+```text
+pip3 install pipenv
+# or
+pipenv --rm
+pip3 install --upgrade pipenv setuptools virtualenv pip six certifi distlib
 
-    pipenv install --deploy
+pipenv install --deploy
 
-    pipenv update --keep-outdated packet
-    pipenv uninstall ansible ansible-base ansible-core --skip-lock
-    pipenv graph
-    pipenv check
-    pipenv lock --clear
+pipenv update --keep-outdated packet
+pipenv uninstall ansible ansible-base ansible-core --skip-lock
+pipenv graph
+pipenv check
+pipenv lock --clear
 
-    pipenv shell
-    exit
+pipenv shell
+exit
+```

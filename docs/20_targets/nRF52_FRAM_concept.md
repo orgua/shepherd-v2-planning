@@ -29,10 +29,10 @@ Design is based on Squeeze
 - capacity on MSP_SBW_IO is ref-design (probably debounce for RST) ⇾ set DNP
 - GPIO-Pins to cape-Port, special functions bound by MSP
 
-   - 0:1 are UART
-   - 0:3 are SPI (with target as Controller)
-   - 9 signals BAT-OK from Shepherd
-   - 10 is missing (is now LED)
+  - 0:1 are UART
+  - 0:3 are SPI (with target as Controller)
+  - 9 signals BAT-OK from Shepherd
+  - 10 is missing (is now LED)
 
 ## Misc Questions
 
@@ -43,25 +43,22 @@ Design is based on Squeeze
    - there are 6x free HS pins, why are they not used? space constraints?
    - NFC pins are special care (pwrgd H0)
    - really just put CLK on nRESET of nRF-Module? should be ok after reprogramming
-
 - to clear up
 
    - MSP has a lot of compromises because of smaller package
    - MSP GPIO 0/1 is UART (This will be routed to SHP-GPIO 7&8)
-
     - bauteile sichten (BGA, QFN), advantages QFN
-  + simpler design and footprint
-	- pin-def incompatible to squeece
-	+ already locally in stock
-	+ if our qfn stock runs out we could switch to BGA without changing pin-def
-	- QFN (-1IRGZT) = 7.80€@100n; BGA (-IZVW) = 9.42€@100n
+  - simpler design and footprint
+    - pin-def incompatible to squeece
+    - already locally in stock
+    - if our qfn stock runs out we could switch to BGA without changing pin-def
+    - QFN (-1IRGZT) = 7.80€@100n; BGA (-IZVW) = 9.42€@100n
+ - msp reset C ⇾ DNP
+ - CoPi
+ - spannungsbegreuntzung diode checken
+ - PWR-LED mit Mosfet + only 220 R ? as much current as possible
 
- + msp reset C ⇾ DNP
- + CoPi
- + spannungsbegreuntzung diode checken
- + PWR-LED mit Mosfet + only 220 R ? as much current as possible
-
-⇾ implemented for v1.0, https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.0
+⇾ implemented for v1.0, <https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.0>
 
 ## Changes after v1.0 / Bugfixes
 
@@ -70,9 +67,9 @@ Design is based on Squeeze
 - C7 is 0604? use same as C2
 - make longer and all parts on one side? ⇾ NO
 
-⇾ implemented for v1.1, https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.1
+⇾ implemented for v1.1, <https://github.com/nes-lab/shepherd-targets/tree/main/hardware/shepherd_nRF_FRAM_Target_v1.1>
 
 ## Hardware-Tests
 
 see readme.md in targets/hardware-folder
-https://github.com/nes-lab/shepherd-targets/tree/main/hardware
+<https://github.com/nes-lab/shepherd-targets/tree/main/hardware>

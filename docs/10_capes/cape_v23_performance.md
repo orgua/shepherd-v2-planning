@@ -20,25 +20,25 @@
 - adc-current values are equal to "zero"
 - diode blocks (later tests show 2nA reverse current), because voltage at cathode (opAmp-Out) is similar high to DAC-Voltage
 - something seems to reverse leak current ⇾ tldr: it is the OPA189 Negative Input Pin
-    - **OPA189 input** can leak max +-1 nA (input bias current) and differential input impedance is 100 MOhm (100nA to 10V)
-    - AD8421 inputs can leak max 2x +-500 pA, tests show < 1 nA
-    - OPA2388 input can leak max +-400 pA (spec), tests show < 1 nA
-    - diode is rated for 40 nA but shows in tests 2 nA @ 5V (see picture below)
-    - capacitor C34 (Opa-Feedback) could leak ⇾ tests show < 1 nA @ +-5V-Range (see picture below)
-    - and the op189 output ⇾ not relevant due to safe diode and capacitor
-    - removing R20 stops the leak ⇾ hint at OPA189 or cap C34
-    - removing C34 changes nothing ⇾ final clue for OPA189
+  - **OPA189 input** can leak max +-1 nA (input bias current) and differential input impedance is 100 MOhm (100nA to 10V)
+  - AD8421 inputs can leak max 2x +-500 pA, tests show < 1 nA
+  - OPA2388 input can leak max +-400 pA (spec), tests show < 1 nA
+  - diode is rated for 40 nA but shows in tests 2 nA @ 5V (see picture below)
+  - capacitor C34 (Opa-Feedback) could leak ⇾ tests show < 1 nA @ +-5V-Range (see picture below)
+  - and the op189 output ⇾ not relevant due to safe diode and capacitor
+  - removing R20 stops the leak ⇾ hint at OPA189 or cap C34
+  - removing C34 changes nothing ⇾ final clue for OPA189
 - that may never occur with a real harvesting source (or work as a hard-to-detect offset)
 - baking pcb off (80 °C, 30min) had no effect (mentioned in datasheet)
 - this leakage is often not existent when SMU is freshly started for the day ⇾ firmware-update to 3.4.0 (2021-04, from 3.2.2 2016-04) did not help
-    - see profile 25, whole voltage range, down to 0 uA
+  - see profile 25, whole voltage range, down to 0 uA
 - changing R20 (Feedback-Lowpass) to 100R or 10k does not change behavior
 - tests with solar-cell (SM101K09L) shows that 2uA is near to dark environment
 - old TODO:
-    - reverse position of diode and shunt
-    - OPA189 speaks of (8.3.3) input bias current clock feedthrough (switching input to correct intrinsic offset)
-    - ⇾ it seems to be the "zero-drift" feature of OPA189 that gets triggered wrongly
-    - worst outcome: 1-2 uA offset in measurement
+  - reverse position of diode and shunt
+  - OPA189 speaks of (8.3.3) input bias current clock feedthrough (switching input to correct intrinsic offset)
+  - ⇾ it seems to be the "zero-drift" feature of OPA189 that gets triggered wrongly
+  - worst outcome: 1-2 uA offset in measurement
 - Update: this problem went away by using another py-lib for the SMU (and cleaner, more explicit init)
 
 Schematic of Harvester v2.3
@@ -60,17 +60,17 @@ Power from Solar Cell (SM101KO9L) in various conditions
 ## Diode Comparison
 
 - PMEG10010ELRX
-    - rated for (extremely low leakage current) **4 nA @ 10 V & 25 °C** and 40 nA (typical, 150 nA max) at 100V & 25°C
-    - measurement: -5 V result in **2.1 nA at room temperature**
-    - seems the safest bet, because datasheet promises the spec
+  - rated for (extremely low leakage current) **4 nA @ 10 V & 25 °C** and 40 nA (typical, 150 nA max) at 100V & 25°C
+  - measurement: -5 V result in **2.1 nA at room temperature**
+  - seems the safest bet, because datasheet promises the spec
 - SMMSD701T1G
-    - rated for ~ 8-9 nA @ 6-12 V & 25 °C (curves in datasheet)
-    - measurement: -5 V result in **1.4 nA at room temperature**
-    - lowest leak-value but not distinguishable from PMEG-Version in Frontend
+  - rated for ~ 8-9 nA @ 6-12 V & 25 °C (curves in datasheet)
+  - measurement: -5 V result in **1.4 nA at room temperature**
+  - lowest leak-value but not distinguishable from PMEG-Version in Frontend
 - RB168MM-40TR
-    - rated for 50 (typical) to 550 uA reverse current @ 40 V
-    - curves in datasheet show IR @ 5 V, 25°C at around 10 nA, up to 1000 nA at 75°C
-    - measurement: -5 V result in **6.9 nA at room temperature**
+  - rated for 50 (typical) to 550 uA reverse current @ 40 V
+  - curves in datasheet show IR @ 5 V, 25°C at around 10 nA, up to 1000 nA at 75°C
+  - measurement: -5 V result in **6.9 nA at room temperature**
 - the first two diodes are fine!
 - ⇾ see media_v23/profiler_smu_diodes.csv
 
@@ -81,40 +81,40 @@ Power from Solar Cell (SM101KO9L) in various conditions
 ## Harvester - Current Measurement
 
 - 2R-Shunt, Gain x48 ⇾ 10R Shunt, Gain x10
-    - no significant effect from profiler
-    - **keep synced to emulator to save parts**
-    - **keep 2R-Shunt**
+  - no significant effect from profiler
+  - **keep synced to emulator to save parts**
+  - **keep 2R-Shunt**
 - Lowpass between InAmp and ADC
-    - 100k results in high offset of > offset of 11'800 n for 0 nA (ADC input seems to be raised by ADC itself)
-    - 1k results in offset = ~ 182 n (Good) and lower Noise, mostly on full range (3-14x better)
-    - 100R seems to worsen limited area (slightly), but improve full range (almost x2)
-    - Cap was varied to match 80 - 160 kHz lowpass, but influence is minimal
-    - 0R caused trouble with voltage dependent current reading +-10uA from 0 to 5V
-    - **33R / 10nF** is fine, limited range gets minimal worse, but full range improves
+  - 100k results in high offset of > offset of 11'800 n for 0 nA (ADC input seems to be raised by ADC itself)
+  - 1k results in offset = ~ 182 n (Good) and lower Noise, mostly on full range (3-14x better)
+  - 100R seems to worsen limited area (slightly), but improve full range (almost x2)
+  - Cap was varied to match 80 - 160 kHz lowpass, but influence is minimal
+  - 0R caused trouble with voltage dependent current reading +-10uA from 0 to 5V
+  - **33R / 10nF** is fine, limited range gets minimal worse, but full range improves
 - buffered shunt (parallel cap C35)
-    - 470 nF instead of nothing: 10 - 20% improvement on limited and full range
-    - nothing instead of 100 nF: 5-10 % worse on full range, minimal better on limited range (but with 100 nF seems the better bet)
-    - 100nF instead of nothing: ~10% improvement on both ranges
-    - **later tuning showed almost no influence of the cap (0, 10, 100nF) only max_error gets limited in profiler**
-    - **10nF does suffice!**
+  - 470 nF instead of nothing: 10 - 20% improvement on limited and full range
+  - nothing instead of 100 nF: 5-10 % worse on full range, minimal better on limited range (but with 100 nF seems the better bet)
+  - 100nF instead of nothing: ~10% improvement on both ranges
+  - **later tuning showed almost no influence of the cap (0, 10, 100nF) only max_error gets limited in profiler**
+  - **10nF does suffice!**
 - buffered inputs (Caps on V_HRV and V_Sense)
-    - adding 2x 100nF is ~ 10 % worse
-    - **remove**
+  - adding 2x 100nF is ~ 10 % worse
+  - **remove**
 - different diode (try alternatives)
-    - no significant effect between new (and better) SMMSD701T1G-Diode and (current) PMEG10010ELRX
+  - no significant effect between new (and better) SMMSD701T1G-Diode and (current) PMEG10010ELRX
 - slower OpAmp-Feedback
-    - R20, 10k instead of 1k or 100R: 10-12% improvement for both ranges, but only static case (lowpass 16 kHz)
-    - later tuning showed that 100R (compared to 330, 1k) are preferred, because OpAmp has to be fast (for the nonlinearitiy, ie. in voltage sweeps
-    - **faste OpAMp** is better, as long as stable
+  - R20, 10k instead of 1k or 100R: 10-12% improvement for both ranges, but only static case (lowpass 16 kHz)
+  - later tuning showed that 100R (compared to 330, 1k) are preferred, because OpAmp has to be fast (for the nonlinearitiy, ie. in voltage sweeps
+  - **faste OpAMp** is better, as long as stable
 - DAC to OpAmp Connection
-    - slower response helps measurement
-    - current 1k & 1nF are fine ⇾ 9 us risetime from rail to rail (same with 200R, 1nF)
-    - 100R & 10nF seem to perform a bit better
+  - slower response helps measurement
+  - current 1k & 1nF are fine ⇾ 9 us risetime from rail to rail (same with 200R, 1nF)
+  - 100R & 10nF seem to perform a bit better
 - shield
-    - is not hurting the measurement, but helps with noisy environments
+  - is not hurting the measurement, but helps with noisy environments
 - set DAC-Ref-voltage to external A5V
-    - current-reading improvement, while voltage worsened? but error stayed after reversing the change
-    - TODO: investigate
+  - current-reading improvement, while voltage worsened? but error stayed after reversing the change
+  - TODO: investigate
 
 ## Harvester - Voltage Measurement
 
@@ -127,7 +127,6 @@ Power from Solar Cell (SM101KO9L) in various conditions
 - R20 low ⇾ Voltage-Matcher should be rather fast (better for V_meas, worse for C_meas)
 - DAC-Lowpass is fine, lower Freq helps measurement
 
-
 Without ShuntBuffer the current reading may be noisy (1k OpAmp Feedback, 0nF Shunt-Buffer)
 
 ![ShuntBuff0](media_v23/hrv_iv110Hz_Shuntbuff_C35_0nF_FB_R20_1k.png)
@@ -139,7 +138,6 @@ Improvement with 10nF ShuntBuffer
 OpAmp is stable enough to lower FB to 100R ⇾ this gets rid of the nonlinearity in the sweep (area where open circuit voltage meets voltage ramp):
 
 ![ShuntFB100R](media_v23/hrv_iv110Hz_Shuntbuff_C35_10nF_FB_R20_100R.png)
-
 
 ## Emulator
 
@@ -169,98 +167,96 @@ No additional Buffering on A5V-Line
 
 ![Emu3](media_v23/hrv_iv110Hz_A5V_1mF.png)
 
-
 ## Stabilize ADC-Readings
 
 Plan: work through datasheet for more design guideline hints
 
 - ADC ADS8691
-    - use X7R caps for V_in and ref-pins
-    - low impedance sense-input
+  - use X7R caps for V_in and ref-pins
+  - low impedance sense-input
 - InAmp AD8421
-    - VS with 100nF + 10uF
-    - RG with minimized capacitance
-    - connection to ADC: 100R + 3nF
-    - ref-voltage with OP1177, with 5k feedback, no C, 10 uF buffer for OpAmp Input
-    - low impedance connections, input can be buffered
+  - VS with 100nF + 10uF
+  - RG with minimized capacitance
+  - connection to ADC: 100R + 3nF
+  - ref-voltage with OP1177, with 5k feedback, no C, 10 uF buffer for OpAmp Input
+  - low impedance connections, input can be buffered
 - OpAmp Opa189
-    - same as Opa388
-    - seems more stable than opa388, fb-cap can be omitted
+  - same as Opa388
+  - seems more stable than opa388, fb-cap can be omitted
 - OpAmp Opa388
-    - shield / isolate from air-currents and heat-sources
-    - place 100nF directly to pwr-in and use groundplane
+  - shield / isolate from air-currents and heat-sources
+  - place 100nF directly to pwr-in and use groundplane
 - DAC8562
-    - AVdd with 100pF, 1nF, 100nF, 1uF
-    - VRef-Buffer, higher capacitance raises noise floor?
-    - internal reference is more noisy (1.4 to 3x less noise with perfect external ref) ⇾ fail because voltage has huge error (current got more stable though)
+  - AVdd with 100pF, 1nF, 100nF, 1uF
+  - VRef-Buffer, higher capacitance raises noise floor?
+  - internal reference is more noisy (1.4 to 3x less noise with perfect external ref) ⇾ fail because voltage has huge error (current got more stable though)
 - LDO LP2989
-    - bypass cap 10nF C0G or NP0
-    - provide VIn >= VOut + 1V
+  - bypass cap 10nF C0G or NP0
+  - provide VIn >= VOut + 1V
 - Inverter LT3487
-    - Thermal Pad (GND) low impedance, many vias
-    - bypass with X7R
-    - negative channel >= 10uF, pos Channel > 4.7 uF
-    - phase lead caps for dampened load response (10-33pF parallel to FB-Res)
-    - input can start at 1uF
+  - Thermal Pad (GND) low impedance, many vias
+  - bypass with X7R
+  - negative channel >= 10uF, pos Channel > 4.7 uF
+  - phase lead caps for dampened load response (10-33pF parallel to FB-Res)
+  - input can start at 1uF
 
 ## Noise-Reducing Experiments
 
 - ADC: R10 33R, C62 10nF lowpass, 482kHz ⇾ not much difference?
 - R8, 5k OpAmp FB from 2k
-    - 50 mV from std-dev 2800-4000-26, to 25-52-25
-    - 2V from 31-60-31 to 25-56-30
+  - 50 mV from std-dev 2800-4000-26, to 25-52-25
+  - 2V from 31-60-31 to 25-56-30
 - C3, 1nF OpAmp FB remove
-    - 50mV completely unstable
+  - 50mV completely unstable
 - C5, remove 1uF DAC_Ref-Buffer
 - DAC_Ref to A5V ⇾ 1.4 to 3x less noise expected
-    - 2V to std 22-55-29
-    - current-channel is improving a bit overall (>5%), but with 20% larger max-errors
-    - voltage-channel is 25-100% worse (mean)
+  - 2V to std 22-55-29
+  - current-channel is improving a bit overall (>5%), but with 20% larger max-errors
+  - voltage-channel is 25-100% worse (mean)
 - HRV
-    - R20 back to 1k
-    - R22 to 33 R, C140 to 10nF
-    - R27 to 33 R, C36 to 10nF
-    - R27 back to 100 ⇾ 100R & 10 nF ⇾ 160 kHz
-    - R27 1k, C36 1nF ⇾ same 160 kHz
-    - C35 Buff, 0nF,  10nF, 100nF
-    - R20 FB smaller 1k, 330R, 100R, 33R
-        - 100R - 50 us for 0 to 5V, significantly smaller bump between ramp and open voltage
-        - openC still 50us, even with reduced R27/200R ⇾ Scope shows 9us risetime at diode (200R)
-        - 1k (R27, back to normal) still 9us risetime on scope
+  - R20 back to 1k
+  - R22 to 33 R, C140 to 10nF
+  - R27 to 33 R, C36 to 10nF
+  - R27 back to 100 ⇾ 100R & 10 nF ⇾ 160 kHz
+  - R27 1k, C36 1nF ⇾ same 160 kHz
+  - C35 Buff, 0nF, 10nF, 100nF
+  - R20 FB smaller 1k, 330R, 100R, 33R
+    - 100R - 50 us for 0 to 5V, significantly smaller bump between ramp and open voltage
+    - openC still 50us, even with reduced R27/200R ⇾ Scope shows 9us risetime at diode (200R)
+    - 1k (R27, back to normal) still 9us risetime on scope
 - cross-supply DAC
 - emu
-    - DAC-out 33R, 10nF
-
+  - DAC-out 33R, 10nF
 
 ## Level-Translators
 
 - speed for programming should exceed 1 MHz
 - test shows safe flanks for ~ 200 kHz
 - setup
-    - Level translator: 74LVC2T45GS
-    - Analog Switch: NLAS4684
+  - Level translator: 74LVC2T45GS
+  - Analog Switch: NLAS4684
 - Risetimes for different configurations:
-    - 1k + NLAS ⇾ 1000 ns ⇾ 434 pF tracecapacity calculated
-    - 330R + NLAS ⇾ 340 ns ⇾ trace-capacity unchanged
-    - 1k + removed 100k PU ⇾ 1000 ns ⇾ trace-capacity unchanged
-    - 1k + removed NLAS ⇾ **37 ns** ⇾ 16 pF capacity, Trace ~20mm, w=0.2mm
-    - 1k + removed NLAS + trace to PinHeader ⇾ **45 ns** ⇾ 19.5 pF (~40 mm Trace, w=0.2mm)
+  - 1k + NLAS ⇾ 1000 ns ⇾ 434 pF tracecapacity calculated
+  - 330R + NLAS ⇾ 340 ns ⇾ trace-capacity unchanged
+  - 1k + removed 100k PU ⇾ 1000 ns ⇾ trace-capacity unchanged
+  - 1k + removed NLAS ⇾ **37 ns** ⇾ 16 pF capacity, Trace ~20mm, w=0.2mm
+  - 1k + removed NLAS + trace to PinHeader ⇾ **45 ns** ⇾ 19.5 pF (~40 mm Trace, w=0.2mm)
 - capacitance
-    - scope probe = 13 pF
-    - Line-Capacitance = 1 pF / 7mm
-    - NLAS-Capacitance = 414 pF ⇾ both outputs behave a bit different ~ 10 % off
-    - C_off = 104 pF (typical), NLAS-Datasheet @ 1 MHz
-    - C_on = 330 pF (typical), NLAS-Datasheet @ 1 MHz
+  - scope probe = 13 pF
+  - Line-Capacitance = 1 pF / 7mm
+  - NLAS-Capacitance = 414 pF ⇾ both outputs behave a bit different ~ 10 % off
+  - C_off = 104 pF (typical), NLAS-Datasheet @ 1 MHz
+  - C_on = 330 pF (typical), NLAS-Datasheet @ 1 MHz
 - Pin-Capacitance of uC, and drive capabilities
-    - nRF52  3-4 pF, gpio current is 14/15 mA
-    - msp430 5pF, gpio current is 6 mA
-    - AM335x 5.5 pF, gpio current is 8 mA
+  - nRF52 3-4 pF, gpio current is 14/15 mA
+  - msp430 5pF, gpio current is 6 mA
+  - AM335x 5.5 pF, gpio current is 8 mA
 - **constraints for the next analog switch**
-    - VIn >= 5V
-    - capacitance << 100 pF
-    - leakage << 100 nA
-    - https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?mounting%20style=SMD%2FSMT&number%20of%20channels=2%20Channel~~7%20Channel&instock=y&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Number%20of%20Channels&sort=pricing
-    - https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?configuration=1%20x%203PDT~~1%20x%204PDT%7C~1%20x%20DPDT%7C~2%20x%20DPDT~~2%20x%20DPST%7C~2%20x%20SP4T~~2%20x%20SPDT%7C~3%20x%20DPDT~~3%20x%20SPDT%7C~4%20x%20SPDT%7C~6%20x%20DPDT~~8%20x%20SPDT&mounting%20style=SMD%2FSMT&instock=y&sort=pricing&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Configuration
+  - VIn >= 5V
+  - capacitance << 100 pF
+  - leakage << 100 nA
+  - <https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?mounting%20style=SMD%2FSMT&number%20of%20channels=2%20Channel~~7%20Channel&instock=y&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Number%20of%20Channels&sort=pricing>
+  - <https://www.mouser.de/c/semiconductors/switch-ics/analog-switch-ics/?configuration=1%20x%203PDT~~1%20x%204PDT%7C~1%20x%20DPDT%7C~2%20x%20DPDT~~2%20x%20DPST%7C~2%20x%20SP4T~~2%20x%20SPDT%7C~3%20x%20DPDT~~3%20x%20SPDT%7C~4%20x%20SPDT%7C~6%20x%20DPDT~~8%20x%20SPDT&mounting%20style=SMD%2FSMT&instock=y&sort=pricing&rp=semiconductors%2Fswitch-ics%2Fanalog-switch-ics%7C~Configuration>
 
 Vc = Vs * (1 - e^(-t/(R*C)));
 C = t * log(e)/(R*log(Vs/(Vs-Vc)));
@@ -284,7 +280,6 @@ fc = 1/(2*pi*R*C);
 - FSA2275, 6V in, ~ 25pA, 1uA Leak
 - **PI5A100Q**, 4SPDT, <6V, 10 Ohm, 18 pF, 80nA max, 70pA typ !!!! (5x5mm QSOP16)
 
-
 ### Contestants for SPST (>= 4x, one EN is fine)
 
 - 74HC4066BQ, 4SPST, 50 Ohm, <=11V, typical 8pF, 1uA max Leak
@@ -305,14 +300,12 @@ fc = 1/(2*pi*R*C);
 - DG2034, 5.5V, wrong config
 ⇾ vishay offers low leakage and bandwidths up to 1 GHz
 
-
 ### Digital bus switches, 4-8 bit
 
 - SN74CBT3125 (312x), 4bit, 5.5V, 16-22 Ohm, 4pF, no Leakage noted ⇾ bad datasheet
 - SN74CBT3245, 8bit 1EN, 5.5V, 8-12 Ohm, 14 pF, 10uA leak?
 - SN74CBT6845, 8bit, precharged ports
 - SN74CBT3244, 8bit, similar to 3245
-
 - QS3125, 4bit, 1uA leak max,
 - SN74CBT3345, 8bit, 1uA leak max?
 - PI5C3245, 8bit, 1uA leak
@@ -320,18 +313,17 @@ fc = 1/(2*pi*R*C);
 - FST3125, 1uA leakage
 - ... even most expensive one had high leakage
 
-
 LSF0108 - AutoDir Level Translation with full
 
 - Left Side of LSF
-    - 74HC4066 ⇾ typical 8 pF
-    - 33 R Line, 10 k PU
-    - 80 mm Trave ⇾ ~ 13 pF
-    - AM335x ⇾ 5.5 pF
+  - 74HC4066 ⇾ typical 8 pF
+  - 33 R Line, 10 k PU
+  - 80 mm Trave ⇾ ~ 13 pF
+  - AM335x ⇾ 5.5 pF
 - LSF0108 has max 12.5 pF (on), 6 pf off
 - Right Side of LSF
-    - 1 k Line, 10 k PU
-    - PI5A100Q ⇾ 18 pF
-    - 50 mm Trace ⇾ ~ 10 pF
-    - Target ⇾ 5 pF
+  - 1 k Line, 10 k PU
+  - PI5A100Q ⇾ 18 pF
+  - 50 mm Trace ⇾ ~ 10 pF
+  - Target ⇾ 5 pF
 - Old right Side: NLAS with > 330 pF

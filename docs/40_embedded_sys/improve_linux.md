@@ -5,8 +5,8 @@
 ### Bootstrap
 
 - "Set authorized key from local file" ⇾ script stops, no ssh pub key generated before trying to access it, on host!
-    - give better error message
-    - fix: ssh-keygen
+  - give better error message
+  - fix: ssh-keygen
 - why "ansible_become_password", what is the meaning? script sets no pw when creating new user
 - user should add (maybe)
   - `generate_ssh_key: yes`
@@ -22,12 +22,13 @@
 - image could be run virtually
 
 playbook args:
+
 - `-v` ⇾ stdout
 - `--check` ⇾ dry run
 
 Improve Speed of SSH and Ansible by tuning local `~/.ssh/config`
 
-```
+```text
 Host *
     AddressFamily inet
     Protocol 2
@@ -49,11 +50,11 @@ BBB Leds
 
 BBB Readme
 
-- up-to-date system information https://elinux.org/Beagleboard:BeagleBoneBlack_Debian
-    - updating kernel
-    - new device tree interface
-- improve system and boot performance: https://embexus.com/2017/05/16/embedded-linux-fast-boot-techniques/
-- official boot optimization: https://processors.wiki.ti.com/index.php/Sitara_Linux_Training:_Boot_Time_Reduction
+- up-to-date system information <https://elinux.org/Beagleboard:BeagleBoneBlack_Debian>
+  - updating kernel
+  - new device tree interface
+- improve system and boot performance: <https://embexus.com/2017/05/16/embedded-linux-fast-boot-techniques/>
+- official boot optimization: <https://processors.wiki.ti.com/index.php/Sitara_Linux_Training:_Boot_Time_Reduction>
 
 ## System Evaluation
 
@@ -178,7 +179,7 @@ sudo nano /etc/ssh/sshd_config
 
 ### SCP Improvement
 
-```
+```text
 # Idea: handshake is secure and fully encrypted, after that the encryption could be lowered, maybe even with fast crypto-module-support
 # switching crypto cipher ⇾ man ssh_config shows for local ``~/.ssh/config``, global ``/etc/ssh/ssh_config`` and ``sshd_config``
 
@@ -241,7 +242,8 @@ sudo apt remove linux-image-4.19.94-ti-r36
 # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n
 sudo dpkg -P linux-image-5.4.24-armv7-x20
 ```
-⇾ down to  1.4 GB MMC &  <41 MB RAM usage (with shepherd)
+
+⇾ down to 1.4 GB MMC & <41 MB RAM usage (with shepherd)
 
 More packages to remove
 
@@ -271,6 +273,7 @@ sudo nano /boot/uEnv.txt
 ### Switch to Ubuntu 20.04
 
 (bionic to focal)
+
 ```Shell
 # pro: brings fresh gcc 10, python 3.8, sshd 8.2,
 sudo apt update && sudo apt upgrade
@@ -293,28 +296,28 @@ sudo rm /boot/initrd.img-*
 
 ## Further actions
 
-- nix, https://nixos.org/ seems to be the better ansible (only future reference)
+- nix, <https://nixos.org/> seems to be the better ansible (only future reference)
 - is active cooling improving the performance? IC is only warm to the touch, so no
 - look at ``dmesg`` for oddities
-    - console on ttyO0, 115200n8, ttyS0 ⇾ see security concept
-    - spectre v2 ⇾ not needed mitigation, cost performance
-    - redundant drivers enabled: CAN driver, ALSA, Bluetooth ⇾ uninstalled
-    - unusual timer-jump, mounting mmc takes 20-25s each ⇾ ext4-mount takes forever
-        [    1.122421] Freeing unused kernel memory: 1024K
-        [   18.463305] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
+  - console on ttyO0, 115200n8, ttyS0 ⇾ see security concept
+  - spectre v2 ⇾ not needed mitigation, cost performance
+  - redundant drivers enabled: CAN driver, ALSA, Bluetooth ⇾ uninstalled
+  - unusual timer-jump, mounting mmc takes 20-25s each ⇾ ext4-mount takes forever
+    [    1.122421] Freeing unused kernel memory: 1024K
+    [ 18.463305] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Opts: (null)
 - ``systemd-analyze blame`` shows:
-    - v4.14: 39.936s dev-mmcblk1p1.device
-    - v4.19: 53.286s dev-mmcblk1p1.device, 29.013s generic-board-startup.service
+  - v4.14: 39.936s dev-mmcblk1p1.device
+  - v4.19: 53.286s dev-mmcblk1p1.device, 29.013s generic-board-startup.service
 - look at power consumption
-- BBB has a crypto engine, but is it used by openSSL! This site has a benchmark: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/
+- BBB has a crypto engine, but is it used by openSSL! This site has a benchmark: <https://datko.net/2013/10/03/howto_crypto_beaglebone_black/>
 - switch to more SD friendly filesystem, F2FS, YAFFS2
 - benchmark cpu BOINC
 - switch from ``-ti-kernel`` to ``-bone``?
-    - see https://groups.google.com/forum/#!topic/beagleboard/sAefubfDqco
-    - ``-bone`` is from Robert Nelson, mainly for BB and BBB, PRU with UIO
-    - ``-ti-kernel`` is for all TI CPUs, PRU with remoteproc
-    - ``-xenomai`` is dual kernel, realtime, 40 us
-    - ``-rt`` uses preemt features to reduce latency to about 100 us
+  - see <https://groups.google.com/forum/#!topic/beagleboard/sAefubfDqco>
+  - ``-bone`` is from Robert Nelson, mainly for BB and BBB, PRU with UIO
+  - ``-ti-kernel`` is for all TI CPUs, PRU with remoteproc
+  - ``-xenomai`` is dual kernel, realtime, 40 us
+  - ``-rt`` uses preemt features to reduce latency to about 100 us
 
 ### Unnecessary kernel modules
 

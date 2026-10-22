@@ -56,7 +56,6 @@ source /home/jane/.venv/bin/activate
 . "$HOME/.venv/bin/activate"
 ```
 
-
 help with cleaning up uv [is here](https://docs.astral.sh/uv/getting-started/features/#utility) and also [removing it completely](https://docs.astral.sh/uv/getting-started/installation/#uninstallation)
 
 ```Shell

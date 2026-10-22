@@ -12,7 +12,6 @@ Algorithms used:
 - `mppt_bq`: MPPT of TI BQ-Converters for solar
 - `cv20`: constant voltage of 2.0 V
 - `ivcurve`: postponed harvesting by sampling ivcurves (voltage stepped as sawtooth-wave)
-
 - [harvesting Profiles in detail](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_core/shepherd_core/data_models/content/virtual_harvester_fixture.yaml)
 
 Commands used:
@@ -81,7 +80,7 @@ Due to the 50 Hz line flicker every current ramp is uniquely shaped.
 
 Using the given [vHarv-Example-code](https://github.com/nes-lab/shepherd-tools/blob/main/shepherd_core/examples/vharvester_simulation.py) shows discrepancies when working with IVCurves.
 
-```
+```text
 E_out = 17.279 mWs -> cv20
 E_out = 11.129 mWs -> cv10
 E_out = 21.933 mWs -> mppt_voc
@@ -100,10 +99,9 @@ Comparing that to the harvested energy from the beginning:
 
 Losses of > 50% are visible.
 
-### Extra Emu Comparison:
+### Extra Emu Comparison
 
 The `IVCurve`-Discrepancies also shows in an emulation of a BQ25570 with V_out = 3V and a 1 kOhm Resistor as Target.
-
 
 #### MPPT_Opt into BQ25570
 

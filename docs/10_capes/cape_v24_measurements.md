@@ -2,7 +2,7 @@
 
 ## Ref = GND
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=466.85, stddev=99.89
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=4903.37, stddev=85.11
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3995 V;      I_raw: mean=49276.55, stddev=88.43
@@ -21,7 +21,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7552 V;      I_raw: mean=98601.86, stdd
 
 ## Ref = 10 mV
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1023.15, stddev=99.29
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5464.52, stddev=85.00
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=49884.01, stddev=88.74
@@ -40,7 +40,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7576 V;      I_raw: mean=99679.24, stdd
 
 ## Ref = 10 mV, double 0R
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1335.36, stddev=99.78
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5776.61, stddev=85.28
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=50194.40, stddev=88.54
@@ -64,7 +64,7 @@ adc_voltage = value_raw * 1.25 * 4.096 / (2**18)
 
 1 week apart, temp diff + smu not warmed up
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1335.36, stddev=99.78
 ... 1 week apart, temp diff + smu not warmed up ...
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1335.34, stddev=97.43
@@ -72,7 +72,7 @@ DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1335.34, stdde
 
 ## Ref = 10 mV, like prev + Shorten 2R of ref-source
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1297.64, stddev=97.59
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3997 V;       I_raw: mean=5738.92, stddev=83.36
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3993 V;      I_raw: mean=50152.39, stddev=87.12
@@ -88,7 +88,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7553 V;      I_raw: mean=99919.79, stdd
 
 ## Ref = 10 mV, like prev + remove hrv inAmp from as ref-sink
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1011.49, stddev=137.60
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5449.12, stddev=128.51
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3995 V;      I_raw: mean=49820.79, stddev=127.02
@@ -105,7 +105,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7555 V;      I_raw: mean=99205.87, stdd
 
 ## Ref = 10 mV, like prev + but with 2R for ref-source again
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=991.82, stddev=124.02
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5431.74, stddev=112.72
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3995 V;      I_raw: mean=49799.03, stddev=117.72
@@ -121,7 +121,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7547 V;      I_raw: mean=99225.21, stdd
 
 ## Ref = 10 mV, like prev + terminate ref-end at hrv with 100 nF
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=989.22, stddev=126.67
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5425.08, stddev=115.39
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=49799.86, stddev=121.68
@@ -137,7 +137,7 @@ DAC @ 5.000 V;        SMU: 20.000 mA @ 4.7566 V;      I_raw: mean=99225.34, stdd
 
 ## Ref = 10 mV, short 2R again with 0R
 
-```
+```text
 DAC @ 0.400 V;        SMU: 0.100 mA @ 0.3998 V;       I_raw: mean=1012.27, stddev=145.49
 DAC @ 0.400 V;        SMU: 1.000 mA @ 0.3998 V;       I_raw: mean=5448.99, stddev=135.98
 DAC @ 0.400 V;        SMU: 10.000 mA @ 0.3996 V;      I_raw: mean=49818.31, stddev=141.67

@@ -19,8 +19,6 @@ expected suspects:
 - faulty kernel-driver for usb
 - bad thumb-drive
 
-
-
 ## Bug in more Detail
 
 Used code:
@@ -34,19 +32,18 @@ sudo shepherd-sheep -vv run --config /etc/shepherd/example_config_emulation.yml
 - flash drive contains source and destination, 180 s worked, 600 s failed after 293 s (run out of buffers), 224 mb
 - failing because of full msg-fifo, with cpu-usage of ~ 86 %, no significant ram or nw usage
 - despite mount-option "commit=2" the data is written every ~ 20 to 30 s with peek rates of 12-21 mb/s
-    - h5py-trouble? ⇾ changed h5.driver to stdio and _nslots from 521 to 100, without success
-    - smaller write cache ⇾ worse performance (~ 230 s), but sysutil shows
-        - source: https://unix.stackexchange.com/questions/292024/how-to-reduce-linux-write-buffer-for-removable-devices
-        - sudo echo 5000000 > /proc/sys/vm/dirty_bytes      ⇾ 5 mb instead of 200 ? or 20% ram-ratio ⇾ 93 mb
-        - echo 300 > /proc/sys/vm/dirty_expire_centisecs    ⇾ 3 s instead of 30
-    - bigger write cache ⇾ no difference (~ 280 s)
-        - echo 300000000 > /proc/sys/vm/dirty_bytes
-        - echo 6000 > /proc/sys/vm/dirty_expire_centisecs
+  - h5py-trouble? ⇾ changed h5.driver to stdio and _nslots from 521 to 100, without success
+  - smaller write cache ⇾ worse performance (~ 230 s), but sysutil shows
+    - source: <https://unix.stackexchange.com/questions/292024/how-to-reduce-linux-write-buffer-for-removable-devices>
+    - sudo echo 5000000 > /proc/sys/vm/dirty_bytes ⇾ 5 mb instead of 200 ? or 20% ram-ratio ⇾ 93 mb
+    - echo 300 > /proc/sys/vm/dirty_expire_centisecs    ⇾ 3 s instead of 30
+  - bigger write cache ⇾ no difference (~ 280 s)
+    - echo 300000000 > /proc/sys/vm/dirty_bytes
+    - echo 6000 > /proc/sys/vm/dirty_expire_centisecs
 - just heat-throttling? 150 mA * 5V = 0.75 W in a plastic case ⇾ opened and cooled a stick
 - usb-errors? the flash drive seems to be the troublemaker ⇾ even on other systems it shows a wavy write-trend
 - lower cpu-usage does not work (mean ~ 80 %, instead of ~86% with monitors)
 - **reading from mmc, writing to flash drive ⇾ failed also**
-
 
 ## Linux-Optimizations for file-writes
 
@@ -59,11 +56,10 @@ Adding Flash drive
 - FUA: Force unit access - FUA write command will not return until data is written to media, thus data written by a completed FUA write command is on permanent media
 - run playbook "setup-ext-storage" with mod for sda1 ⇾ fails because of "p1"-addition
 
-
 Getting storage ready, by following tutorials:
 
-- https://www.thegeekdiary.com/what-are-the-mount-options-to-improve-ext4-filesystem-performance-in-linux/
-- https://www.linuxliteos.com/forums/tutorials/fast-disk-io-with-ext4-howto/
+- <https://www.thegeekdiary.com/what-are-the-mount-options-to-improve-ext4-filesystem-performance-in-linux/>
+- <https://www.linuxliteos.com/forums/tutorials/fast-disk-io-with-ext4-howto/>
 
 ```Shell
 sudo umount -f -v /dev/sda1

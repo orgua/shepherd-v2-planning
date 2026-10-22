@@ -3,37 +3,37 @@
 ## Current Features
 
 - general features
-    - fully customizable per yaml-parameter-set
-    - or choose one of the predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
-    - inherit from existing parameter-sets with ie. "converter-base: neutral" (neutral is default inheritance) ⇾ only altered parameters needed in new set
-    - emulator can either record output or intermediate node (storage cap)
+  - fully customizable per yaml-parameter-set
+  - or choose one of the predefined sets by name ie. "virtsource: BQ25504s" for the BQ-Regulator with pwr-good-schmitt-trigger
+  - inherit from existing parameter-sets with ie. "converter-base: neutral" (neutral is default inheritance) ⇾ only altered parameters needed in new set
+  - emulator can either record output or intermediate node (storage cap)
 - Input
-    - oneway, imagine a perfect diode at the start so no current can flow back
-    - diode voltage-drop can be configured from 0 to x Volt
-    - maxima for input voltage and current (power limit)
+  - oneway, imagine a perfect diode at the start so no current can flow back
+  - diode voltage-drop can be configured from 0 to x Volt
+  - maxima for input voltage and current (power limit)
 - Boost-converter, optional, with
-    - enable minimum threshold voltage for input
-    - disable maximum threshold for boost-output (intermediate voltage)
-    - efficiency factor with 2D-LUT (12x12), depending on input voltage & current
-        - thresholds are configurable in 2^n steps
-        - voltage divisions are linear, depending on lowest threshold
-        - current-divisions are log2, also depending on lowest threshold
-        - example: voltage threshold n=7 is setting first array boundary to 2^7 = 128 uV, so lut[0] is for V < 128 uV, lut[1] is for 128 to 256 uV
+  - enable minimum threshold voltage for input
+  - disable maximum threshold for boost-output (intermediate voltage)
+  - efficiency factor with 2D-LUT (12x12), depending on input voltage & current
+    - thresholds are configurable in 2^n steps
+    - voltage divisions are linear, depending on lowest threshold
+    - current-divisions are log2, also depending on lowest threshold
+    - example: voltage threshold n=7 is setting first array boundary to 2^7 = 128 uV, so lut[0] is for V < 128 uV, lut[1] is for 128 to 256 uV
 - capacitor, optional, with
-    - capacitance from 1 nF to 1 F
-    - initial voltage
-    - leakage current
-    - switchable output, hysteresis with checks at defined intervals
-    - power-good-signal with hysteresis either in intervals or immediate (schmitt-trigger)
+  - capacitance from 1 nF to 1 F
+  - initial voltage
+  - leakage current
+  - switchable output, hysteresis with checks at defined intervals
+  - power-good-signal with hysteresis either in intervals or immediate (schmitt-trigger)
 - buck converter, optional, with
-    - fixed output voltage
-    - ldo-drop-voltage, alternatively working like a diode when buck is off or intermediate voltage is below output-voltage + drop-voltage
-    - efficiency factor with 1D-LUT, depending on output-current
-        - threshold is configurable in 2^n-steps
-        - current-divisions are log2, depending on lowest threshold
-        - example: current threshold n=5 is setting first array boundary to 2^5 = 32 nA, so lut[0] is for I < 32 nA, lut[1] is for [32, 64] nA, lut[2] is for [64, 128] nA
+  - fixed output voltage
+  - ldo-drop-voltage, alternatively working like a diode when buck is off or intermediate voltage is below output-voltage + drop-voltage
+  - efficiency factor with 1D-LUT, depending on output-current
+    - threshold is configurable in 2^n-steps
+    - current-divisions are log2, depending on lowest threshold
+    - example: current threshold n=5 is setting first array boundary to 2^5 = 32 nA, so lut[0] is for I < 32 nA, lut[1] is for [32, 64] nA, lut[2] is for [64, 128] nA
 - switchable output
-    - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
+  - simulated external Capacitor - should be set to buffer size of target: fast transients can't be fully monitored by shepherd
 
 ![vsrc](virtual_source_schemdraw.png)
 
@@ -44,53 +44,53 @@
 - fixed point math with u32 & u64 with voltages in uV, currents in nA, power in fW, capacity in nF
 - a python port is available
 - modules
-    - InputPower - calculated from recorded C-V-traces
-    - OutputPower - voltage is set by DAC, current is measured by ADC
-    - CapacitorUpdate - Voltage delta is calculated by resulting sum of Power
-    - regulatorUpdate - handles internal States and Output
+  - InputPower - calculated from recorded C-V-traces
+  - OutputPower - voltage is set by DAC, current is measured by ADC
+  - CapacitorUpdate - Voltage delta is calculated by resulting sum of Power
+  - regulatorUpdate - handles internal States and Output
 - limits
-    - input power can be 56 bit in size (fW = uV * nA) ⇾ ~ 72 W
-        - lowest value for algorithm is 64 fW, but due to ADC limitations 195 nA * 19 uV = 3.7 pW
-    - output power can be 50 bit in size (fW = uV * nA) ⇾ ~ 1 W
-        - difference to input due to inverted efficiency taking 14 instead of 8 bit
-    - capacitor voltage can be 4.2 kV
-        - due to custom faster division-function the range with low error is 0 to 5 V
-        - optimization in calc_out_power limits voltage to 2^28 uV = 268 V, lower bound is 64 uV
-    - storage capacitor can not be larger than 2.68 F (= 10*(2^28) nF), reasonable boundaries are [1 nF, 100 mF]
-    -
+  - input power can be 56 bit in size (fW = uV * nA) ⇾ ~ 72 W
+    - lowest value for algorithm is 64 fW, but due to ADC limitations 195 nA * 19 uV = 3.7 pW
+  - output power can be 50 bit in size (fW = uV * nA) ⇾ ~ 1 W
+    - difference to input due to inverted efficiency taking 14 instead of 8 bit
+  - capacitor voltage can be 4.2 kV
+    - due to custom faster division-function the range with low error is 0 to 5 V
+    - optimization in calc_out_power limits voltage to 2^28 uV = 268 V, lower bound is 64 uV
+  - storage capacitor can not be larger than 2.68 F (= 10*(2^28) nF), reasonable boundaries are [1 nF, 100 mF]
+  -
 - Speed in PRU (max timings)
-    -   280 ns calc input power
-    -  3200 ns calc output power
-    - 10500 ns update capacitor
-    -   470 ns update boost-buck
-    - ~14000 ns for all (with space in between)
+  - 280 ns calc input power
+  - 3200 ns calc output power
+  - 10500 ns update capacitor
+  - 470 ns update boost-buck
+  - ~14000 ns for all (with space in between)
 - Optimizing Algorithm for Speed
-    - a custom uDiv() brings "update cap" down to 7500 ns, whole iteration takes 11684 ns
-    - leaving out I_leakage is significantly faster (calc output is done in 310 ns instead of 3200, similar to input) but resulting output-power is wrong
-        - seems to be undefined behavior introduced by implicit typecasting
-        - ⇾ undefined it is! see documentation below
-    - new ruleset:
-        - u64 add, sub, shift are fine and fast!
-        - u64 mul should be avoided, duration is depending on size of number (3000 - 4800 - 6400 ns for 4, 16, 32 bit)
-        - u32 * u32 can give u64 result when both or last factor are typecasted - it is still fast! ⇾ uint64_t result = (uint64_t)num32a * (uint64_t)num32b;
+  - a custom uDiv() brings "update cap" down to 7500 ns, whole iteration takes 11684 ns
+  - leaving out I_leakage is significantly faster (calc output is done in 310 ns instead of 3200, similar to input) but resulting output-power is wrong
+    - seems to be undefined behavior introduced by implicit typecasting
+    - ⇾ undefined it is! see documentation below
+  - new ruleset:
+    - u64 add, sub, shift are fine and fast!
+    - u64 mul should be avoided, duration is depending on size of number (3000 - 4800 - 6400 ns for 4, 16, 32 bit)
+    - u32 * u32 can give u64 result when both or last factor are typecasted - it is still fast! ⇾ uint64_t result = (uint64_t)num32a * (uint64_t)num32b;
 - using the ruleset brings:
-    -  280 ns calc input power
-    -  430 ns calc output power
-    - 5400 ns update capacitor
-    -  540 ns update boost-buck
-    - resulting time is around 6900 - 7060 ns
+  - 280 ns calc input power
+  - 430 ns calc output power
+  - 5400 ns update capacitor
+  - 540 ns update boost-buck
+  - resulting time is around 6900 - 7060 ns
 - using a custom mul64()-function
-    -  280 ns calc input power
-    -  500 ns calc output power
-    -  950 ns update capacitor
-    -  540 ns update boost-buck
-    - resulting in < 2600 ns for all
+  - 280 ns calc input power
+  - 500 ns calc output power
+  - 950 ns update capacitor
+  - 540 ns update boost-buck
+  - resulting in < 2600 ns for all
 - adding boundary checks for math-ops
-    -  700 ns calc input power
-    - 1350 ns calc output power
-    - 1300 ns update capacitor
-    -  580 ns update boost-buck
-    - resulting in < 4300 ns for all
+  - 700 ns calc input power
+  - 1350 ns calc output power
+  - 1300 ns update capacitor
+  - 580 ns update boost-buck
+  - resulting in < 4300 ns for all
 - TODO: benchmark new extended code
 
 ## How PRU0 Spends the 10 us per Cycle
@@ -116,8 +116,8 @@
 - dataset: indoor_solar/sheep4/office_sd.h5
 - cap 22 uF, 50% eta_in, 80% eta_out
 - sim-sets
-    - 10 mA drain shows dutycycle of ~ 0.27 %, On-Time is ~ 800us
-    - 1 mA drain, dutycycle ~ 2.7 %, On-Time ~ 8.16 ms.
+  - 10 mA drain shows dutycycle of ~ 0.27 %, On-Time is ~ 800us
+  - 1 mA drain, dutycycle ~ 2.7 %, On-Time ~ 8.16 ms.
 - cap voltage moves between power-good-thresholds of 2.4 and 2.8 V
 
 ![vsrc_10mA](vSource_indoor_solar_with_10mA_drain_pwrgood.png)
@@ -180,17 +180,17 @@ uint64_t debug_math_fns(const uint32_t factor, const uint32_t mode)
 - Battery Charge Voltage 2.5 - 5.25 V
 - VBAT_OK-Signal
 - Caps
-	- Input 4.23 - 5.17 uF
-	- Storage 4.23 - 5.17 uF
-	- Battery 100 uF and more
+  - Input 4.23 - 5.17 uF
+  - Storage 4.23 - 5.17 uF
+  - Battery 100 uF and more
 - VBatOV 2.5 - 5.25 V
 - VBatUV 2.2 - VBatOV
 - Input Efficiency (Page 9)
-	- 10 uA: 0 % for 130 mV, 90 % for 3 V
-	- 100 uA: 10 % for 130 mV, 90 % for 3 V
-	- 10 mA: 40 % for 130 mV, 93 % for 3 V
-	- model needs better definition of limits
-- TODO: continue on p. 11, https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds
+  - 10 uA: 0 % for 130 mV, 90 % for 3 V
+  - 100 uA: 10 % for 130 mV, 90 % for 3 V
+  - 10 mA: 40 % for 130 mV, 93 % for 3 V
+  - model needs better definition of limits
+- TODO: continue on p. 11, <https://www.ti.com/lit/ds/symlink/bq25504.pdf?ts=1625558784652&ref_url=https%253A%252F%252Fwww.ti.com%252Fproduct%252FBQ25504%253Futm_source%253Dgoogle%2526utm_medium%253Dcpc%2526utm_campaign%253Dapp-null-null-GPN_EN-cpc-pf-google-eu%2526utm_content%253DBQ25504%2526ds_k%253DBQ25504%2526DCM%253Dyes%2526gclid%253DEAIaIQobChMI_6nZmf7N8QIVmrd3Ch3Q4AxNEAAYASAAEgKpwPD_BwE%2526gclsrc%253Daw.ds>
 
 ### Implemented
 
@@ -202,7 +202,7 @@ uint64_t debug_math_fns(const uint32_t factor, const uint32_t mode)
 - check and warn about limits in Python
 - add BQ25504
 
-### HowTo fill Efficiency LUTs:
+### HowTo fill Efficiency LUTs
 
 - find lowest threshold for current and voltage
 - it helps to add current/voltage-values for each column/row as comment on the outside

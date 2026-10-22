@@ -14,10 +14,10 @@
 ## Eval
 
 - Pi OS Lite, 64-bit, Kernel 6.6, debian 12 bookworm
-    - flashed to uSD-Card with RPi Imager
-    - **hostname: sheep50 - sheep52**
-    - **user: jane, temppwd**
-    - **enable ssh with pw**
+  - flashed to uSD-Card with RPi Imager
+  - **hostname: sheep50 - sheep52**
+  - **user: jane, temppwd**
+  - **enable ssh with pw**
 - Powered via USB Type C & Power-Brick
 - Platform is definitely hot to the touch, compared to CM4
   - cam shows 56..60 deg C for idle
@@ -128,7 +128,6 @@ reboot and compare to before
 sudo reboot
 ```
 
-
 ### Comparison
 
 ```shell
@@ -149,15 +148,11 @@ sudo reboot
 
 - `raspi-gpio` used for CM4 is now deprecated
 - `pinctrl` is recommended, interface is similar
-
-
-
 - `pinctrl get` prints the state of all GPIO pins
 - `pinctrl get X` prints the state of GPIO pin X
 - `pinctrl set X op` sets GPIO pin X as an output
 - `pinctrl set X dh` sets GPIO pin X to drive high
 - `pinctrl set X dl` sets GPIO pin X to drive low
-
 - going for GPIO21, last one on the connector
 - J8-P40: GPIO21 (upper right corner)
 - J8-P39: GND (lower right corner)
@@ -198,7 +193,7 @@ ls -ltr /sys/class/gpio/gpiochip*
 
 BCM2712 + RP1
 -> Datasheet for BCM not published yet, but
--> https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf
+-> <https://datasheets.raspberrypi.com/rp1/rp1-peripherals.pdf>
 
 #### RP1
 
@@ -210,14 +205,15 @@ BCM2712 + RP1
 ##### Chapter 3.3.2
 
 sys_rio0 @0x400e0000
-normal rw           -> addr + 0x0000
+normal rw -> addr + 0x0000
 atomic XOR on write -> addr + 0x1000
-atomic bitmask set  -> addr + 0x2000
+atomic bitmask set -> addr + 0x2000
 atomic bitmask clear-> addr + 0x3000
 
 ##### Kernel Module
 
-https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/pinctrl/pinctrl-rp1.c
+<https://github.com/raspberrypi/linux/blob/rpi-6.6.y/drivers/pinctrl/pinctrl-rp1.c>
+
 ```c
 #define RP1_RIO_OUT			0x00
 #define RP1_RIO_OE			0x04
@@ -244,9 +240,7 @@ static int rp1_get_dir(struct rp1_pin_info *pin)
 }
 ```
 
-another approach is https://github.com/raspberrypi/utils/blob/master/pinctrl/gpiochip_rp1.c
-
-
+another approach is <https://github.com/raspberrypi/utils/blob/master/pinctrl/gpiochip_rp1.c>
 
 ### add Kernel Module
 

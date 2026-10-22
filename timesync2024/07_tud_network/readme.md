@@ -19,7 +19,6 @@ See [Step-By-Step-Guide](https://nes-lab.github.io/shepherd/dev/time_sync_measur
 
 See [Example Analysis](https://nes-lab.github.io/shepherd/dev/time_sync_analysis/readme.html#) for more context regarding plots and raw-data.
 
-
 ## Results
 
 - general sync with RPi5 seems to be very good -> 5 min is `Δ_q1=356ns`
@@ -27,7 +26,7 @@ See [Example Analysis](https://nes-lab.github.io/shepherd/dev/time_sync_analysis
 
 ## Raw data from Sync Analysis
 
-```
+```text
 TYPE: diff
                                                   name  min [ns]  q1 [ns]  q5 [ns]  mean [ns]  q95 [ns]  q99 [ns]  max [ns]  t_min [s]  t_max [s]  Δ_q1 [ns]  Δ_max [ns]
 0     01_rp5_master_piservo_1min_cpu_ondemand_diff_0u1     -9252     -292     -226          6       228       274      9116  64.480748  15.878116        566       18368

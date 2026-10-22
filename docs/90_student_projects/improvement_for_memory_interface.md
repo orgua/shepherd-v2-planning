@@ -7,12 +7,10 @@
 
   - harvesting / recording an energy source
   - emulating that energy environment for a connected wireless node (target MCU)
-
 - focus is on the emulation part as this is most constrained
 - the PRUs are sampling an ADC, writing to a DAC and reading GPIO … and calculating some real-time math (virtual power source)
 - the linux side is controlled by a python-program that has a direct memory interface to the PRUs ⇾ that program supplies input data and collects the resulting measurement stream
 - (side-info) there is an optional second communication channel to a kernel module (python and PRU can each talk to that module) controlling most of the state-machine
-
 - Problem: the memory interface for exchanging that described measurement-data has some design-flaws described in "Current Situation" and "Known Constraints" below
 
 ## Current Situation
@@ -30,10 +28,9 @@ Timings for reference (emulation, data from mid 2021):
 - ~ 8'000 ns for the virtual source calculations (worst case)
 - ~ 800 ns for buffer-swap (only every 100 ms)
 
-   - 400 ns prepare buffer
-   - 200 ns mutex-part / gpio-swap
-   - 200 ns send full buffer
-
+  - 400 ns prepare buffer
+  - 200 ns mutex-part / gpio-swap
+  - 200 ns send full buffer
 - 720 ns for writing to DAC
 
 ## Goals
@@ -45,7 +42,6 @@ Timings for reference (emulation, data from mid 2021):
   - the design of a new memory interface (buffer-design)
   - redesign of the state-machine coordinating the measurement (time-sync, buffer swap, controlling measurement-states)
   - maybe: improved sampling routines for the ICs (bitbanged SPI in assembler)
-
 - another possibility for high throughput gpio-sampling
 
   - offer two firmwares: virtual source emulation with slower GPIO-Sampling OR
@@ -59,13 +55,11 @@ Timings for reference (emulation, data from mid 2021):
   - 1 MBaud Serial might cause 1 * 10^6 events
   - event consists of 2 byte gpio-register & 8 byte timestamp
   - 10 byte @ 1 MHz are ~ 10 MB/s
-
 - Note: there is another Testbed called Flocklab, that is also using the Beaglebone. They sample serial via a serial-kernel-module and are limited at ~ .5 to 1 MBaud which produces high system load
 - the PRU is good at writing into (system) RAM with just 1 cycle, but slow at reading with 100-600 cycles per read (at 200 MHz PRU baseclock)
 
   - by using memcopy one read can be larger than uint32, by only needing little more time
   - currently the PRU reads the voltage- and current-value in two OPs (design-flaw)
-
 - PRUs have only 8 kB private RAM and 12 kB shared RAM (between the two PRUs)
 - there might be more …
 
@@ -92,7 +86,6 @@ Timings for reference (emulation, data from mid 2021):
 - [buffer reception in python](https://github.com/nes-lab/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L134)
 - [buffer swap routines (return_buffer() & get_buffer()) in python](https://github.com/nes-lab/shepherd/blob/main/software/python-package/shepherd/shepherd_io.py#L715)
 - [kernel module](https://github.com/nes-lab/shepherd/tree/main/software/kernel-module/src)
-
 
 External BBone-Projects that may help:
 

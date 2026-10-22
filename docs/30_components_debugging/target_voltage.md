@@ -23,21 +23,21 @@ NOTE: part of the oscillation is probably also partly caused by the measurement 
 ## Measurements for voltage drop
 
 - source current ⇾ TargetA Voltage
-    - 0  uA; 2.9983 V
-    - 1  mA; 2.9987 V
-    - 5  mA; 3.0001 V
-    - 10 mA; 3.0024 V
-    - 20 mA; 3.0065 V
-    - 30 mA; 3.0106 V
-    - 40 mA; 3.0148 V
+  - 0 uA; 2.9983 V
+  - 1 mA; 2.9987 V
+  - 5 mA; 3.0001 V
+  - 10 mA; 3.0024 V
+  - 20 mA; 3.0065 V
+  - 30 mA; 3.0106 V
+  - 40 mA; 3.0148 V
 - drain current ⇾ TargetA Voltage
-    - 0  mA; 2.9983 V
-    - 1  mA; 2.9979 V
-    - 10 mA; 2.9942 V
-    - 20 mA; 2.9901 V
-    - 30 mA; 2.9860 V
-    - 40 mA; 2.9818 V
-    - 50 mA; 2.9732 V
+  - 0 mA; 2.9983 V
+  - 1 mA; 2.9979 V
+  - 10 mA; 2.9942 V
+  - 20 mA; 2.9901 V
+  - 30 mA; 2.9860 V
+  - 40 mA; 2.9818 V
+  - 50 mA; 2.9732 V
 
 ## Analysis of voltage drop
 

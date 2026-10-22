@@ -105,8 +105,7 @@ Watching the UART0-Output (J3 / Debug-Header) tells us that
 
   k3-j721e-beagleboneai64.dtb is loaded
 
-
-```
+```text
 [  461.349258] watchdog: watchdog0: watchdog did not stop!
 [  461.819578] reboot: Restarting system
 
@@ -285,8 +284,6 @@ sudo apt autoremove
 
 process-view is now much shorter, and ram-usage down to 90 MB.
 
-
-
 ### Debian bullseye XFCE image 2022-01-14 (on eMMC)
 
 - 5.10.90-ti-arm64-r28 #1bullseye SMP PREEMPT Thu Jan 13 15:02:48 UTC 2022 aarch64 GNU/Linux
@@ -309,6 +306,7 @@ sudo apt install gpiod htop
 Now both works
 
 Additional Steps for PTP-Eval-Testrun:
+
 - remove & update software (shown above)
 - playbook bootstrap (add user jane, pwless access, root w/o pw)
 - playbook setup_nw_mac_dhcp_id.yml
@@ -384,7 +382,7 @@ iperf3 -b 100M -c sheep65
 
 - activate passthrough of gpio
 
-```
+```text
 sudo gpioset 1 20=1
 ```
 
@@ -397,10 +395,8 @@ sudo journalctl -u phc2sys@eth0.service -b -f
 sudo journalctl -u ptp4l@eth0.service -b -f
 ```
 
-
 - PPS-Signal is now on P8_03
 - GND is on P8_01 & P8_02
-
 
 ## Shepherd-Eval
 
@@ -437,10 +433,10 @@ Setting MuX-Register
 
 1 0 0 0 0 0 1 00 0 0 1 0 1 000 00000 00 0111
 ⇾ compare with J721_registers1.pdf, page 1108
+
 - set Mode 7, bit[3:0] = 7
 - activate RX, bit[18] = 1
 - Activate TX, bit[21] = 0
-
 
 ## observations
 

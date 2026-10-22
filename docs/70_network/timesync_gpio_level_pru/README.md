@@ -8,12 +8,12 @@ Problem
 Setup
 
 - two beaglebones are connected via ethernet to same switch
-    - one beaglebone is default dev-environment, the other is freshly installed
-    - both have shepherd-code from https://github.com/nes-lab/shepherd installed
-    - both beaglebones were restarted more than once and had plenty of time to sync
+  - one beaglebone is default dev-environment, the other is freshly installed
+  - both have shepherd-code from <https://github.com/nes-lab/shepherd> installed
+  - both beaglebones were restarted more than once and had plenty of time to sync
 - switch
-    - fritzbox, up to date and even restarted
-    - later an additional Cisco Catalyst 2960-S was added to same network
+  - fritzbox, up to date and even restarted
+  - later an additional Cisco Catalyst 2960-S was added to same network
 
 Mechanism
 
@@ -32,11 +32,10 @@ sudo systemctl restart phc2sys@eth0
 
 Configs are copied from shepherd/deploy/[...] to
 
-```
+```text
 /etc/systemd/system/phc2sys.service.d/phc2sys_mands.conf
 /etc/systemd/system/ptp4l.service.d/ptp_restart.conf
 ```
-
 
 Get log-data from sync
 
@@ -123,18 +122,18 @@ sudo journalctl -f -u ptp4l@eth0
 Signs of a bad network switch
 
 - path delay on fritzbox was 10x as high as the cisco-switch and the values show variance of 126 to 118 us
-    - the cisco switch is very consistent in its path delay, down to 30 ns jitter
+  - the cisco switch is very consistent in its path delay, down to 30 ns jitter
 - master-offset is jumping, logs even show 70 us offsets
-    - the cisco switch is after 30 mins down to <200 ns corrections
+  - the cisco switch is after 30 mins down to <200 ns corrections
 
 On PRU Level
 
 - sync in kernel-module and pru-code works and keeps correcting
 - oszi shows that client is mostly behind (mean is ~ 500ns, max seems to be 1 us)
-    - quickshot 105-108
+  - quickshot 105-108
 - visuals of logic analyzer traces are in ./timesync-folder
 
-```
+```text
 FILE: sync_2BB_13_trigger_opt
         [  min <|  q05% ||  mean   ||  q95% |>  max  ]
 dt_ns 	[ -540 <| -100  || 356.83  || 760   |> 1120  ]
@@ -148,9 +147,8 @@ PRU-Code
 - sampling was strictly aligned to 0
 - old intc-code was disabled / removed
 - latest improvements made sync_state useless ⇾ intc-routine just sends out timer-count right away
-    - no need to wait for timer wrap before sending out msg
+  - no need to wait for timer wrap before sending out msg
 - the previous compensation attempts all produced a sawtooth ⇾ fixed
-
 
 Kernel-Module
 
@@ -158,11 +156,11 @@ Kernel-Module
 - expensive PRU-Sync-Code ported to Kernel (frees pru1 a lot)
 - slowed down PI-Controller, +-20 ticks jitter, there is now only +-3
 - sync-routine aimed intc for time_comparing right on timer_wrap (50% chance that pru takes a worthless counter-reading after wrap)
-    - now 100 us before, enough time get proper counter-value
+  - now 100 us before, enough time get proper counter-value
 
 Debug Output Kernel Module
 
-```
+```text
 [94227.285824] shprd: KMod - error=-175, ns_iep=-5089, ns_sys=-4914, errsum=170244, old_period=20001327, corr=1325
 [94227.385838] shprd: KMod - error=-43, ns_iep=3039, ns_sys=3082, errsum=170201, old_period=20001325, corr=1328
 [94227.485838] shprd: KMod - error=211, ns_iep=-4459, ns_sys=-4670, errsum=170412, old_period=20001328, corr=1337
@@ -179,7 +177,7 @@ Debug Output Kernel Module
 
 Current result / improvements
 
-```
+```text
 FILE: sync_2BB_18b_new_trigger
         [  min <|  q05% ||  mean   ||  q95% |>  max ]
 dt_ns 	[ -280 <| -110  || 45.39   || 230   |> 320   ]

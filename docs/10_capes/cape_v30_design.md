@@ -138,6 +138,7 @@ Programmer GPIO-Budget
 ### Current 2-Way solution
 
 NLAS4684 (for voltage-routing)
+
 - dual SPDT Analog Switch
 - 500 mOhm RDS
 - 300 mA continuous, 500 mA peak
@@ -150,6 +151,7 @@ NLAS4684 (for voltage-routing)
 -> replacement: 4 Way, >= 5.5 V, <<10 nA leak, <= 500 mOhm RDS, >= 250 mA continuous
 
 PI5A4158ZA (for gpio-routing)
+
 - dual SPDT analog switch
 - high bandwidth, 150 MHz,
 - 500 mOhm (less relevant)
@@ -168,21 +170,23 @@ PI5A4158ZA (for gpio-routing)
 ## RPi + RP2354B
 
 Pi-40Pin-Header
+
 - 28 GPIO, 2 SPI, 1 UART, SDIO
 
 Pi4
+
 - 1 GBE
 - 28 GPIO, 5 SPI, 5 UART,
 - CM4 has no usable USB, but raw PCIe 2x1 !
 - runs stable, has enough power, cool to the touch
 
 Pi5
+
 - PCIe on extra connector, 5 GT/s
 - requires 5.1V, 27 W
 - pretty hot (~60°C) without sink
 - RP1 handles most IO - not well documented ATM
   - triggering sync-gpio from kernel-module is harder (TBD)
-
 - RP2350
   - pin 50..56 seems to have quad SPI (separate from GPIO)
   - USB1.1 Controller, Full Speed 12 Mbps
@@ -223,5 +227,5 @@ Pi5
 ### Improve Noise-Performance
 
 - what did the uCurrent do?
-- https://github.com/joeltroughton/uSMU
+- <https://github.com/joeltroughton/uSMU>
 - jule counter of tegBed -> can we offer millivolt range with enhanced res?

@@ -8,7 +8,7 @@ System crashes while unloading the module - currently more often than before.
 
 What changed?
 
-https://github.com/nes-lab/shepherd/compare/orgua:shepherd:main...orgua:shepherd:dev?diff=unified
+<https://github.com/nes-lab/shepherd/compare/orgua:shepherd:main...orgua:shepherd:dev?diff=unified>
 
 ## Listen to kernel errors
 
@@ -24,7 +24,7 @@ sudo modprobe -a shepherd
 
 ## Log of a panic
 
-```
+```text
 [  942.541300] Unable to handle kernel NULL pointer dereference at virtual address 000001c1
 [  942.549458] pgd = 1a431801
 [  942.552176] [000001c1] *pgd=00000000
@@ -134,7 +134,7 @@ What to read out of this?
 
 While running the testsuite a second time it caused an allocation error::
 
-```
+```text
 [   27.554353] PM: Cannot get wkup_m3_ipc handle
 [   27.997689] PM: Cannot get wkup_m3_ipc handle
 [   32.066431] shepherd 4a300000.pruss:shepherd: Not yet able to parse pru device node

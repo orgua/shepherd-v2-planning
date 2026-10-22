@@ -1,7 +1,5 @@
 # Install custom Shepherd-Code and check install, prior to release
 
-
-
 ## Install on System
 
 ```Shell
@@ -95,7 +93,7 @@ echo "start" > /sys/class/remoteproc/remoteprocX/state
 
 ## Test new vSource-Emulator
 
-```
+```text
 sudo apt install --reinstall exfat-fuse exfat-utils
 mkdir /var/shepherd/recordings2
 chmod -Rf 777 /var/shepherd/recordings2
@@ -114,9 +112,9 @@ sudo umount /var/shepherd/recordings
 
 ## Programming Target
 
-**DEPRECATED** - use https://github.com/nes-lab/shepherd-targets
+**DEPRECATED** - use <https://github.com/nes-lab/shepherd-targets>
 
-Compile a demo 'https://github.com/geissdoerfer/shepherd-nrf52-demo'
+Compile a demo '<https://github.com/geissdoerfer/shepherd-nrf52-demo>'
 
 ```Shell
 sudo apt install gcc-arm-none-eabi
@@ -138,7 +136,7 @@ sudo shepherd-sheep -vv target-power --voltage 2.8
 
 ### Herd-steps
 
-```
+```text
 shepherd-herd target
 shepherd-herd start-openocd
 shepherd-herd target flash build.hex
@@ -148,7 +146,7 @@ program /tmp/target_image.bin verify reset
 
 ### Start by hand
 
-```
+```text
 # installed in /etc/systemd/system/
 sudo systemctl start shepherd-openocd.service
 
@@ -163,7 +161,7 @@ sudo netstat -apn | grep LISTEN
 
 Success!! When Target is directly connected
 
-```
+```text
 shepherd-herd target flash build.hex
 ```
 
@@ -182,7 +180,7 @@ sudo cat /dev/ttyS1
 
 Spits out text by manually triggering pins:
 
-```
+```text
 1 triggered
 
   is outside of range of supported pins (7)

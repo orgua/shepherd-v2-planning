@@ -1,6 +1,5 @@
 # Secure SSHd
 
-
 ## Forbid Umac-64
 
 Add to `/etc/ssh/sshd-config`

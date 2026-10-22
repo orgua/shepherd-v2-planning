@@ -11,9 +11,9 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - Improvement 3: try to find approach where same cape-pinout can be used with beaglebone black and beaglebone AI
 - improvement 4: it would be beneficial to make MPPT-Conv & Cap Modular
 - assessment:
-    - mostly critical is software / firmware implementation
-    - ⇾ hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
-    - also allows On-Off-Pattern for target-power
+  - mostly critical is software / firmware implementation
+  - ⇾ hardware enabled approach, not difficult in hardware, low risk and low impact on time expense
+  - also allows On-Off-Pattern for target-power
 
 ## More GPIO to Target
 
@@ -24,8 +24,8 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - solution1: use two pins per PRU to allow IO
 - solution2: extend SPI to also talk to GPIO-Extender (would also make level-shifting-easier)
 - assessment:
-    - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
-    - PRU should be limited to be gpio-recorder with its pins, a second pin is handled from host
+  - PRU has still 9+ unused pins, even 10 (with current ones) in a register-row, but 8 seems like a more suited number
+  - PRU should be limited to be gpio-recorder with its pins, a second pin is handled from host
 
 ## Bidirectional GPIO and fast/variable UART / SPI to Target
 
@@ -35,9 +35,9 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - solution 1: pru could access spi and uart from host-cpu, has delay-penalty, but gpio from host seems unreachable to PRU
 - improvement: PRU could be limited to be GPIO-recorder (see previous requirement)
 - assessment:
-   - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api (ok, because main purpose is monitoring)
-   - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins often fall together and limit the available pins
-   - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
+  - bidirectional gpios will be recorded properly, but never react in realtime if handled in python-api (ok, because main purpose is monitoring)
+  - (high-speed) SPI to target is hardly possible, host-periphery and PRU-Pins often fall together and limit the available pins
+  - uart-speeds would allow 192 Mbps with no autobaud and 3.7 Mbps with it
 
 ## User-provided Energy-Traces
 
@@ -47,8 +47,8 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - improvement 2: U/I-Values could be partial linear dependent and therefore compressible (data-compression-algorithm, vectorization, delta-conversion)
 - improvement 3: beaglebone AI has GBE instead of 100 mbit, that makes data-handling a lot smoother
 - assessment:
-    - no hardware-changes needed, lib-changes seem manageable
-    - traces seem to be compressible by factor 10 to 100 (input Kai), which is fine for playback
+  - no hardware-changes needed, lib-changes seem manageable
+  - traces seem to be compressible by factor 10 to 100 (input Kai), which is fine for playback
 
 ## Accuracy of time-base
 
@@ -59,9 +59,9 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - Improvement 4: "external" sync signal ⇾ "sync port" is already available for the gps-capelet, and even if it is not used for time-keeping, it can be recorded for later trace-alignment
 - improvement 5: ptp has a lot of bad-undocumented set-screws to optimize performance ...
 - assessment:
-    - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
-    - no risk on hw-level, minimal more time expense in design-stage
-    - gpio sampling is already asynchronous @ ~20 MHz
+  - no definitive solution for sub 1 µs accuracy, but some of the solutions should be considered in concept phase, others are sw / hw mods in a later stage
+  - no risk on hw-level, minimal more time expense in design-stage
+  - gpio sampling is already asynchronous @ ~20 MHz
 
 ## Mobility of Nodes
 
@@ -73,7 +73,7 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - improvement 5: tweak linux for low power usage (turn off unused devices) and low sd-card usage (disable logging)
 - improvement 6: proper casing with interfaces (i.e. eth, power-switch/connector, gps-antenna, pps)
 - assessment:
-   - low risk on hw-level
+  - low risk on hw-level
 
 ## Support for other Targets
 
@@ -82,9 +82,9 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - Enabler 1: generalize programmer pins and GPIO-Pins to Target (specialize on target-carrier-pcb)
 - Enabler 2: bring usb to target device if possible (beaglebone-Pinheader does not have USB, but could be realized via cable)
 - assessment:
-   - if openOCD supports targets and programming-protocol (or implementing them is doable), chances are good
-   - pin-sharing with target-gpio is hard ⇾ device-tree seems pretty static
-   - general idea seems viable ⇾ TODO: more reading
+  - if openOCD supports targets and programming-protocol (or implementing them is doable), chances are good
+  - pin-sharing with target-gpio is hard ⇾ device-tree seems pretty static
+  - general idea seems viable ⇾ TODO: more reading
 
 ## Support for two selectable Targets
 
@@ -93,17 +93,17 @@ This chapter is looking mainly on the hardware-challenges (software can be adapt
 - problem 2: how to distinguish between ICs automatically
 - enabler: software-defined PRU-openOCD could try to probe, get chip-ID with various methods (jtag, swd), similar to JTAGulator
 - assessment:
-    - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
-    - software could be more tricky ⇾ py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the chosen target
-    - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
+  - hardware changes are fine, board space is not limited (cape can be bigger than beaglebone)
+  - software could be more tricky ⇾ py-lib should be "general" (without board-specific config), but target still has to be choosable, and target-firmware has to match the chosen target
+  - with some effort even both targets could be powered, one with CV, to allow use as interferer (see next subject) or independent node
 
 ## Separate RF-Interferer
 
 - more specific: controllable rf-standards as interference
 - enabler: modules for WIFI and BT could be added per USB / Hub and controlled via linux, defined traffic via iperf (for WIFI) or JamLab-NG
 - assessment:
-   - should not be main goal for shepherd V2, maybe stretch goal
-   - has no influence on cape-hw-design or python-API, can be completely separate (even on extra beaglebone or server)
+  - should not be main goal for shepherd V2, maybe stretch goal
+  - has no influence on cape-hw-design or python-API, can be completely separate (even on extra beaglebone or server)
 
 ## Channel-Monitoring
 

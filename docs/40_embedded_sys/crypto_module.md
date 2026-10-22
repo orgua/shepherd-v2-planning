@@ -2,7 +2,7 @@
 
 ## OpenSSL Benchmark
 
-```
+```text
 time openssl speed -evp aes-128-cbc
 
 ⇾ Benchmark of disabled module is ~3s
@@ -52,7 +52,7 @@ scp -o Cipher=chacha20-poly1305@openssh.com ./rec.2.h5 10.0.0.52:/home/hans/
 
 ## Add Driver for CPU Crypto-Module
 
-```
+```text
 # compile and add Cryptodev module / https://github.com/cryptodev-linux/cryptodev-linux
 # Manual1: https://lauri.võsandi.com/2014/07/cryptodev.html
 # Manual2: https://datko.net/2013/10/03/howto_crypto_beaglebone_black/

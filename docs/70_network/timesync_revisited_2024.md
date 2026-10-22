@@ -26,7 +26,6 @@ Hardware Receive Filter Modes:
 
 Path delay is between 12000 and 14000
 
-
 ### RPi5
 
 ```Shell
@@ -51,7 +50,7 @@ Hardware Receive Filter Modes:
 
 Strangely the path delay doubled!
 
-```
+```text
 Sep 23 19:43:52 sheep13 ptp4l[5882]: [453507.381] master offset         55 s2 freq +126528 path delay     25939
 Sep 23 19:43:53 sheep13 ptp4l[5882]: [453508.381] master offset       -124 s2 freq +126366 path delay     25940
 Sep 23 19:43:54 sheep13 ptp4l[5882]: [453509.381] master offset        -19 s2 freq +126434 path delay     25940
